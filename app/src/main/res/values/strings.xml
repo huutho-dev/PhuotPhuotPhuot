@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">PhuotPhuotPhuot</string>
+
+    <!--activity intro-->
+    <string name="act_intro_btn_previos">Previous</string>
+    <string name="act_intro_btn_next">Next</string>
+    <string name="act_intro_btn_lets_go">Lets go</string>
+
+    <!--drawer title-->
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <!--act_regions-->
+    <string name="act_regions_search_hint">Tìm kiếm</string>
+
+    <!--title menu -->
+    <string name="menu_vietnam">VietNam</string>
+    <string name="menu_search">Voice Search</string>
+    <string name="menu_favorite">Favorite</string>
+    <string name="menu_north">North</string>
+    <string name="menu_central">Central</string>
+    <string name="menu_south">South</string>
+    <string name="menu_flashlight">FlashLight</string>
+    <string name="menu_compass">Compass</string>
+    <string name="menu_experience">Experience</string>
+    <string name="menu_sos">SOS</string>
+    <string name="menu_utilities">Utilities</string>
+    <string name="menu_information">Infomation</string>
+    <string name="menu_update">Update</string>
+
+    <!--bottombar menu-->
+    <string name="menu_place_intro">Intro</string>
+    <string name="menu_place_map">Map</string>
+    <string name="menu_place_food">Food</string>
+    <string name="menu_place_motel">Motel</string>
+
+    <!--dialog title-->
+    <string name="title_dialog_choose_city">Choose city</string>
+</resources>

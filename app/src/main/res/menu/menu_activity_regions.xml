@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_vietnam"
+            android:icon="@drawable/menu_viet_nam"
+            android:title="@string/menu_vietnam" />
+        <item
+            android:id="@+id/action_voice_search"
+            android:icon="@drawable/menu_voice_search"
+            android:title="@string/menu_search" />
+        <item
+            android:id="@+id/action_favorite"
+            android:icon="@drawable/menu_favorite"
+            android:title="@string/menu_favorite" />
+        <item
+            android:id="@+id/action_north"
+            android:icon="@drawable/menu_north"
+            android:title="@string/menu_north" />
+        <item
+            android:id="@+id/action_central"
+            android:icon="@drawable/menu_central"
+            android:title="@string/menu_central" />
+        <item
+            android:id="@+id/action_south"
+            android:icon="@drawable/menu_south"
+            android:title="@string/menu_south" />
+    </group>
+
+    <item android:title="Other">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/action_flash_light"
+                android:icon="@drawable/menu_flash_light"
+                android:title="@string/menu_flashlight" />
+            <item
+                android:id="@+id/action_compass"
+                android:icon="@drawable/menu_compress"
+                android:title="@string/menu_compass" />
+            <item
+                android:id="@+id/action_experiences"
+                android:icon="@drawable/menu_experiences"
+                android:title="@string/menu_experience" />
+            <item
+                android:id="@+id/action_sos"
+                android:icon="@drawable/menu_sos_warning"
+                android:title="@string/menu_sos" />
+            <item
+                android:id="@+id/action_utilities"
+                android:icon="@drawable/menu_utilities"
+                android:title="@string/menu_utilities" />
+        </group>
+        </menu>
+    </item>
+
+    <item android:title="App">
+        <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/action_update"
+                android:icon="@drawable/menu_update"
+                android:title="@string/menu_update" />
+            <item
+                android:id="@+id/action_info"
+                android:icon="@drawable/menu_info"
+                android:title="@string/menu_information" />
+            </group>
+        </menu>
+    </item>
+
+
+</menu>

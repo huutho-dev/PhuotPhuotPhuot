@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_dot_unselected" android:state_selected="false" />
+    <item android:drawable="@drawable/ic_dot_selected" android:state_selected="true" >
+        <ripple android:color="@color/colorAccent" tools:ignore="NewApi" />
+        <scale android:scaleHeight="3"
+            android:scaleWidth="3"
+            android:scaleGravity="center"/>
+
+
+    </item>
+</selector>

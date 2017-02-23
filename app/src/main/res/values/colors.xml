@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorAccent">#EF5350</color>
+
+    <!--color text-->
+    <color name="textColorPrimary">#de000000</color>
+    <color name="textColorSecondary">#8a000000</color>
+    <color name="textColorDisable">#61000000</color>
+    <color name="textColorHint">#61000000</color>
+
+    <!--color icon-->
+    <color name="iconHintActiveDark">#8a000000</color>
+    <color name="iconHintInactiveDark">#61000000</color>
+    <color name="iconHintActiveLight">#ffffff</color>
+    <color name="iconHintInactiveLight">#80ffffff</color>
+
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="gray">#747474</color>
+    <color name="gray_dark">#383838</color>
+    <color name="gray_light">#cccccc</color>
+    <color name="red">#ff1919</color>
+</resources>
