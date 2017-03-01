@@ -11,17 +11,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.huutho.phuotphuotphuot.R;
+import com.huutho.phuotphuotphuot.app.AppController;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.huutho.phuotphuotphuot.R.id.act_home_imv_central;
-import static com.huutho.phuotphuotphuot.R.id.act_home_imv_north;
-import static com.huutho.phuotphuotphuot.R.id.act_home_imv_south;
 
 
 /**
@@ -29,21 +28,19 @@ import static com.huutho.phuotphuotphuot.R.id.act_home_imv_south;
  */
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = HomeActivity.class.getSimpleName();
+    private int blocWidth;
+    private int blocHeight;
 
-    @BindView(act_home_imv_north)
-    ImageView mImvNorth;
-    @BindView(act_home_imv_central)
-    ImageView mImvCentral;
-    @BindView(act_home_imv_south)
-    ImageView mImvSouth;
+    @BindView(R.id.act_home_image_vietnam)
+    ImageView imgVietNam;
 
-    private Animation mZoomIn, mZoomOut;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -54,19 +51,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void bindViewToLayout() {
         ButterKnife.bind(this);
-        mImvNorth.setDrawingCacheEnabled(true);
-        mImvCentral.setDrawingCacheEnabled(true);
-        mImvSouth.setDrawingCacheEnabled(true);
-
-        mZoomIn = AnimationUtils.loadAnimation(this, R.anim.anim_zoom_in);
-        mZoomOut = AnimationUtils.loadAnimation(this, R.anim.anim_zoom_out);
+        imgVietNam.setImageResource(R.drawable.background_vietnam);
     }
 
     @Override
     public void activityReady() {
-        mImvNorth.setOnTouchListener(changeColorListener);
-        mImvCentral.setOnTouchListener(changeColorListener);
-        mImvSouth.setOnTouchListener(changeColorListener);
+        blocWidth = AppController.WIDTH_SCREEN / 16;
+        blocHeight = AppController.HEIGHT_SCREEN / 24;
     }
 
     @Override
@@ -74,33 +65,33 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    private View.OnTouchListener changeColorListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(final View v, final MotionEvent event) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    Bitmap bm = Bitmap.createBitmap(v.getDrawingCache());
-                    int color = bm.getPixel((int) event.getX(), (int) event.getY());
-                    if (color != Color.TRANSPARENT) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action = event.getAction();
+        float x = event.getX();
+        float y = event.getY();
 
-                        switch (v.getId()) {
-                            case R.id.act_home_imv_north:
-                                startActivity(RegionsActivity.REGIONS_NORTH);
-                                break;
-                            case R.id.act_home_imv_central:
-                                startActivity(RegionsActivity.REGIONS_CENTRAL);
-                                break;
-                            case R.id.act_home_imv_south:
-                                startActivity(RegionsActivity.REGIONS_SOUTH);
-                                break;
-                        }
-                    }
-                }
-            });
-            return false;
+
+        if (action == MotionEvent.ACTION_DOWN) {
+
+            if (x > 1 * blocWidth && x < 8 * blocWidth && y > 2 * blocHeight && y < 6 * blocHeight) {
+                startActivity(RegionsActivity.REGIONS_NORTH);
+               return false;
+            }
+
+            if (x > 3* blocWidth && x < 11*blocWidth &&y > 6*blocHeight && y <16*blocHeight){
+                startActivity(RegionsActivity.REGIONS_CENTRAL);
+                return false;
+            }
+
+            if (x > 6* blocWidth && x < 11 * blocWidth &&y > 6* blocHeight && y<22*blocHeight){
+                startActivity(RegionsActivity.REGIONS_SOUTH);
+                return false;
+            }
         }
-    };
+
+        return true;
+    }
 
     private void startActivity(int regions) {
         Intent intent = new Intent(HomeActivity.this, RegionsActivity.class);

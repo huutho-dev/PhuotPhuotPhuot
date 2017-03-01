@@ -70,11 +70,11 @@ public abstract class BaseRVAdapter<VH extends BaseViewHolder, E extends BaseEnt
         return null;
     }
 
-    public class SetItemClick implements View.OnClickListener {
+    public class OnRecyclerViewItemClickListener implements View.OnClickListener {
         private E data;
         private int position;
 
-        public SetItemClick(E data, int position) {
+        public OnRecyclerViewItemClickListener(E data, int position) {
             this.data = data;
             this.position = position;
         }

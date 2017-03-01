@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huutho.phuotphuotphuot">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.Camera2" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:name=".app.AppController"
         android:allowBackup="true"
@@ -22,18 +29,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.HomeActivity"/>
-        <activity android:name=".ui.activity.RegionsActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-                android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.PlaceDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.HomeActivity" />
+        <activity
+            android:name=".ui.activity.RegionsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.activity.PlaceDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <service android:name=".location.LocationService"
+            android:exported="false"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="fcbd2d3e7daad64763fabf19e1dd8cee6fc2afc7"
-            />
+            android:value="fcbd2d3e7daad64763fabf19e1dd8cee6fc2afc7" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
     </application>
 
 </manifest>

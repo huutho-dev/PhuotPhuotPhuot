@@ -15,7 +15,8 @@ import android.view.ViewGroup;
  */
 public abstract class BaseFragment extends Fragment {
     private String TAG = BaseFragment.class.getSimpleName();
-    public Handler mHandle ;
+    ;
+    public Handler mHandle;
     public Activity mActivity;
     public Context mContext;
 
@@ -35,7 +36,8 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(setContentLayout(), container, false);
+        View view = inflater.inflate(setContentLayout(), container, false);
+        return view;
     }
 
     @Override
@@ -50,4 +52,8 @@ public abstract class BaseFragment extends Fragment {
     public abstract void bindViewToFragment();
 
     public abstract void fragmentReady();
+
+    public Handler getHandle(){
+        return mHandle;
+    }
 }

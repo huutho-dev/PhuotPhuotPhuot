@@ -35,4 +35,5 @@
 
     <!--dialog title-->
     <string name="title_dialog_choose_city">Choose city</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

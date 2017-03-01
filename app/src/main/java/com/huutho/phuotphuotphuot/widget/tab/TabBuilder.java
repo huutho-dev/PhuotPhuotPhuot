@@ -46,6 +46,8 @@ public class TabBuilder {
         this.mTabLayout = tabLayout;
         this.mListFragment = new ArrayList<>();
         this.mListTitle = new ArrayList<>();
+
+        this.mViewPager.setOffscreenPageLimit(4);
     }
 
     public TabBuilder setFragment(Fragment... fragments) {
@@ -88,52 +90,26 @@ public class TabBuilder {
         return this;
     }
 
+    public TabBuilder addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+        mViewPager.addOnPageChangeListener(listener);
+        return this;
+    }
+
+    public TabBuilder addOnTabSelectedListener(TabLayout.OnTabSelectedListener listener) {
+        mTabLayout.addOnTabSelectedListener(listener);
+        return this;
+    }
+
     public void build() {
         mPagerAdapter = new TabPagerAdapter(mContext.getSupportFragmentManager(),
                 mListFragment, mListTitle);
-        mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.addOnTabSelectedListener(tabSelectedListener);
-        mViewPager.addOnPageChangeListener(pageChangeListener);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
 
     public int getCurrentTab() {
         return mViewPager.getCurrentItem();
     }
-
-    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
-
-    private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-            mViewPager.setCurrentItem(tab.getPosition());
-        }
-
-        @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-
-        }
-
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-
-        }
-    };
 
 }

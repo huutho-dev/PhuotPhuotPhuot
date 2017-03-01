@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,12 +11,6 @@
         android:id="@+id/act_intro_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:layout_above="@+id/act_intro_btn_previos"
-        android:background="@color/white" />
 
     <Button
         android:id="@+id/act_intro_btn_previos"
@@ -42,43 +37,11 @@
         android:textColor="@color/white"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/act_intro_btn_previos"
-        android:layout_alignTop="@+id/act_intro_btn_previos"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="@dimen/spacing_0_4dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/act_intro_dot_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/background_intro_dots" />
-
-        <ImageView
-            android:id="@+id/act_intro_dot_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/background_intro_dots" />
-
-        <ImageView
-            android:id="@+id/act_intro_dot_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/background_intro_dots" />
-
-        <ImageView
-            android:id="@+id/act_intro_dot_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:background="@drawable/background_intro_dots" />
-
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/act_intro_btn_next"
+        android:background="#77000000" />
 </RelativeLayout>

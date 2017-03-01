@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.huutho.phuotphuotphuot.R;
+import com.huutho.phuotphuotphuot.app.AppController;
 import com.huutho.phuotphuotphuot.app.Config;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 import com.huutho.phuotphuotphuot.ui.adapter.IntroPagerAdapter;
+import com.huutho.phuotphuotphuot.ui.entity.IntroItem;
 import com.huutho.phuotphuotphuot.utils.FileUtils;
 import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 public class IntroActivity extends BaseActivity implements View.OnClickListener {
 
@@ -33,19 +36,11 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
     Button mButtonNext;
     @BindView(R.id.act_intro_btn_previos)
     Button mButtomPrevious;
-    @BindView(R.id.act_intro_dot_1)
-    ImageView mDot1;
-    @BindView(R.id.act_intro_dot_2)
-    ImageView mDot2;
-    @BindView(R.id.act_intro_dot_3)
-    ImageView mDot3;
-    @BindView(R.id.act_intro_dot_4)
-    ImageView mDot4;
-
-    private ArrayList<ImageView> mListDot;
-    private Animation mZoomOut, mZoomIn;
+    @BindView(R.id.indicator)
+    CircleIndicator mIndicator;
 
     private IntroPagerAdapter mAdapter;
+    private ArrayList<IntroItem> introItems;
     int mLastPositionPage = 0;
     int currentPosition = 0;
 
@@ -54,7 +49,6 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-
 
         // lấy biến kiểm tra xem có phải lần đầu run app không
         boolean isFirstLoad = SharePreferencesUtils.getInstances().getFirstRunApp();
@@ -79,24 +73,21 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
         mButtomPrevious.setOnClickListener(this);
         mButtomPrevious.setVisibility(View.INVISIBLE);
 
-        mListDot = new ArrayList<>();
-        mListDot.add(mDot1);
-        mListDot.add(mDot2);
-        mListDot.add(mDot3);
-        mListDot.add(mDot4);
-
-        mZoomIn = AnimationUtils.loadAnimation(this, R.anim.anim_zoom_in);
-        mZoomOut = AnimationUtils.loadAnimation(this, R.anim.anim_zoom_out);
     }
 
     @Override
     public void activityReady() {
-        mAdapter = new IntroPagerAdapter(this.getSupportFragmentManager());
+        introItems = new ArrayList<>();
+        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
+        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
+        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
+        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
+
+        mAdapter = new IntroPagerAdapter(introItems);
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(onPageChangeListener);
-
-        setAnimDots(0, 0);
-        mDot1.setSelected(true);
+        mViewPager.setOffscreenPageLimit(mAdapter.getCount());
+        mIndicator.setViewPager(mViewPager);
     }
 
     /**
@@ -115,15 +106,13 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
                     mLastPositionPage = currentPosition;
                     currentPosition++;
                     mViewPager.setCurrentItem(currentPosition);
-                    setAnimDots(currentPosition, mLastPositionPage);
-                }
 
+                }
                 break;
             case R.id.act_intro_btn_previos:
                 mLastPositionPage = currentPosition;
                 currentPosition--;
                 mViewPager.setCurrentItem(currentPosition);
-                setAnimDots(currentPosition, mLastPositionPage);
                 break;
         }
     }
@@ -135,7 +124,7 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            LogUtils.v("huutho", position + "");
+
         }
 
         @Override
@@ -153,16 +142,6 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
                     mButtomPrevious.setVisibility(View.VISIBLE);
             }
             currentPosition = position;
-            int totalPage = 4;
-            for (int i = 0; i < totalPage; i++) {
-                if (i == position) {
-                    setAnimDots(i, mLastPositionPage);
-                    mListDot.get(i).setSelected(true);
-                } else {
-                    mListDot.get(i).setSelected(false);
-                    mListDot.get(i).clearAnimation();
-                }
-            }
             mLastPositionPage = position;
         }
 
@@ -170,9 +149,4 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
         public void onPageScrollStateChanged(int state) {
         }
     };
-
-    private void setAnimDots(int currentPosition, int lastPosition) {
-        mListDot.get(lastPosition).startAnimation(mZoomOut);
-        mListDot.get(currentPosition).startAnimation(mZoomIn);
-    }
 }

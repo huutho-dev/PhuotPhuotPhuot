@@ -1,16 +1,20 @@
 package com.huutho.phuotphuotphuot.ui.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huutho.phuotphuotphuot.R;
+import com.huutho.phuotphuotphuot.app.AppController;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.ui.adapter.ChooseCityAdapter;
@@ -81,11 +86,21 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
 
     private int mCurrentRegions;
 
+    private Runnable runActivityReady = new Runnable() {
+        @Override
+        public void run() {
+            mListPlace = new ArrayList<>();
+            mListPlace.addAll(TablePlace.getInstance().getListData(
+                    DbContracts.TablePlace.PLACE_ID_ZONE,
+                    new String[]{String.valueOf(mCurrentRegions)},
+                    null));
+            mAdapter.setDatas(mListPlace);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mCurrentRegions = getDataBundle();
-        TextView txt = new TextView(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -120,14 +135,7 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     @Override
     public void activityReady() {
         dialogSpeech();
-
-        mListPlace = new ArrayList<>();
-        mListPlace.addAll(TablePlace.getInstance().getListData(
-                DbContracts.TablePlace.PLACE_ID_ZONE,
-                new String[]{String.valueOf(mCurrentRegions)},
-                null));
-        mAdapter.setDatas(mListPlace);
-
+        getHandler().post(runActivityReady);
     }
 
     @Override

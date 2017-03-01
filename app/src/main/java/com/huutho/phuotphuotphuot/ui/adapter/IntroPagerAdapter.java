@@ -1,40 +1,55 @@
 package com.huutho.phuotphuotphuot.ui.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.huutho.phuotphuotphuot.ui.fragment.Intro1Fragment;
-import com.huutho.phuotphuotphuot.ui.fragment.Intro2Fragment;
-import com.huutho.phuotphuotphuot.ui.fragment.Intro3Fragment;
-import com.huutho.phuotphuotphuot.ui.fragment.Intro4Fragment;
+import com.huutho.phuotphuotphuot.R;
+import com.huutho.phuotphuotphuot.ui.entity.IntroItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by HuuTho on 1/18/2017.
  */
-public class IntroPagerAdapter extends FragmentPagerAdapter {
+public class IntroPagerAdapter extends PagerAdapter {
     private final String TAG = IntroPagerAdapter.class.getSimpleName();
-    private List<Fragment> mListFragment;
 
-    public IntroPagerAdapter(FragmentManager fm) {
-        super(fm);
-        mListFragment = new ArrayList<>();
-        mListFragment.add(new Intro1Fragment());
-        mListFragment.add(new Intro2Fragment());
-        mListFragment.add(new Intro3Fragment());
-        mListFragment.add(new Intro4Fragment());
-    }
+    private ArrayList<IntroItem> dataIntros;
 
-    @Override
-    public Fragment getItem(int position) {
-        return mListFragment.get(position);
+    public IntroPagerAdapter(ArrayList<IntroItem> dataIntros) {
+        this.dataIntros = dataIntros;
     }
 
     @Override
     public int getCount() {
-        return mListFragment.size();
+        return dataIntros.size();
     }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return object == view;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.layout_intro, container, false);
+        ImageView imageView = (ImageView) view.findViewById(R.id.image_intro);
+        TextView textView = (TextView) view.findViewById(R.id.text_intro);
+        IntroItem item = dataIntros.get(position);
+        imageView.setImageResource(item.resId);
+        textView.setText(item.title);
+        container.addView(view);
+        return view;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((RelativeLayout) object);
+    }
+
 }

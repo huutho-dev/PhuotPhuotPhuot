@@ -24,6 +24,7 @@ public class AppController extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         ourInstance = this;
+        getDimenScreen();
     }
 
     private void getDimenScreen() {
