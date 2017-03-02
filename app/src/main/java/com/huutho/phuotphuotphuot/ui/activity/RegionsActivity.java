@@ -43,6 +43,7 @@ import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TablePlace;
 import com.huutho.phuotphuotphuot.widget.ClearEditText;
+import com.huutho.phuotphuotphuot.widget.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -55,7 +56,6 @@ import butterknife.ButterKnife;
  */
 public class RegionsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         PlaceRVAdapter.IPlaceAdapterListener, View.OnClickListener {
-    private final String TAG = RegionsActivity.class.getSimpleName();
     protected static final String KEY_BUNDLE_REGIONS = "key.bundle.regions";
     private static final int KEY_RESULT_SPEECH = 1010;
     protected static final int SNUMBER_COLUMN = 2;
@@ -124,6 +124,7 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
         mAdapter = new PlaceRVAdapter(this, this);
         mRVPlace.setLayoutManager(new GridLayoutManager(this, SNUMBER_COLUMN));
         mRVPlace.hasFixedSize();
+
         mRVPlace.setAdapter(mAdapter);
 
         mChooseLocation.setOnClickListener(this);

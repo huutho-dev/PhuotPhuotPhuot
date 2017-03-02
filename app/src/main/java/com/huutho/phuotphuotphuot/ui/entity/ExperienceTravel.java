@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.entity;
 
 import android.database.Cursor;
+import android.os.Parcel;
 
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
@@ -69,4 +70,37 @@ public class ExperienceTravel extends BaseEntity {
                 ", mImageExp='" + mImageExp + '\'' +
                 '}';
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mIdExp);
+        dest.writeString(this.mNameExp);
+        dest.writeString(this.mDescExp);
+        dest.writeString(this.mImageExp);
+    }
+
+    protected ExperienceTravel(Parcel in) {
+        this.mIdExp = in.readString();
+        this.mNameExp = in.readString();
+        this.mDescExp = in.readString();
+        this.mImageExp = in.readString();
+    }
+
+    public static final Creator<ExperienceTravel> CREATOR = new Creator<ExperienceTravel>() {
+        @Override
+        public ExperienceTravel createFromParcel(Parcel source) {
+            return new ExperienceTravel(source);
+        }
+
+        @Override
+        public ExperienceTravel[] newArray(int size) {
+            return new ExperienceTravel[size];
+        }
+    };
 }

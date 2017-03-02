@@ -47,7 +47,7 @@ public class TabBuilder {
         this.mListFragment = new ArrayList<>();
         this.mListTitle = new ArrayList<>();
 
-        this.mViewPager.setOffscreenPageLimit(4);
+
     }
 
     public TabBuilder setFragment(Fragment... fragments) {
@@ -105,6 +105,7 @@ public class TabBuilder {
                 mListFragment, mListTitle);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        this.mViewPager.setOffscreenPageLimit(mViewPager.getAdapter().getCount());
     }
 
 

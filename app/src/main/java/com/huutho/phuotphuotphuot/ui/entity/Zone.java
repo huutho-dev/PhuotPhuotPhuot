@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.entity;
 
 import android.database.Cursor;
+import android.os.Parcel;
 
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
@@ -57,4 +58,35 @@ public class Zone extends BaseEntity {
                 ", mNameZoneClean='" + mNameZoneClean + '\'' +
                 '}';
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mIdZone);
+        dest.writeString(this.mNameZone);
+        dest.writeString(this.mNameZoneClean);
+    }
+
+    protected Zone(Parcel in) {
+        this.mIdZone = in.readString();
+        this.mNameZone = in.readString();
+        this.mNameZoneClean = in.readString();
+    }
+
+    public static final Creator<Zone> CREATOR = new Creator<Zone>() {
+        @Override
+        public Zone createFromParcel(Parcel source) {
+            return new Zone(source);
+        }
+
+        @Override
+        public Zone[] newArray(int size) {
+            return new Zone[size];
+        }
+    };
 }

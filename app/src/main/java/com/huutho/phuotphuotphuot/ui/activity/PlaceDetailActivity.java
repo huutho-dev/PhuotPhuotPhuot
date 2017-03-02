@@ -86,7 +86,7 @@ public class PlaceDetailActivity extends BaseActivity {
 
     private Place getBundleData() {
         Intent intent = getIntent();
-        return (Place) intent.getSerializableExtra(PlaceDetailActivity.KEY_DATA);
+        return (Place) intent.getParcelableExtra(PlaceDetailActivity.KEY_DATA);
     }
 
     private void initTabAndViewPager(TabLayout tabLayout, ViewPager viewPager) {

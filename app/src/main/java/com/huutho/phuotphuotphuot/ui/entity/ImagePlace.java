@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.entity;
 
 import android.database.Cursor;
+import android.os.Parcel;
 
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
@@ -58,4 +59,35 @@ public class ImagePlace extends BaseEntity {
                 ", mIdPlace='" + mIdPlace + '\'' +
                 '}';
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mIdImage);
+        dest.writeString(this.mLinkImage);
+        dest.writeString(this.mIdPlace);
+    }
+
+    protected ImagePlace(Parcel in) {
+        this.mIdImage = in.readString();
+        this.mLinkImage = in.readString();
+        this.mIdPlace = in.readString();
+    }
+
+    public static final Creator<ImagePlace> CREATOR = new Creator<ImagePlace>() {
+        @Override
+        public ImagePlace createFromParcel(Parcel source) {
+            return new ImagePlace(source);
+        }
+
+        @Override
+        public ImagePlace[] newArray(int size) {
+            return new ImagePlace[size];
+        }
+    };
 }

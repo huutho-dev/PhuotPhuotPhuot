@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
  * Created by HuuTho on 1/19/2017.
  */
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
-    private final String TAG = HomeActivity.class.getSimpleName();
     private int blocWidth;
     private int blocHeight;
 
@@ -51,7 +50,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void bindViewToLayout() {
         ButterKnife.bind(this);
-        imgVietNam.setImageResource(R.drawable.background_vietnam);
     }
 
     @Override
@@ -97,5 +95,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = new Intent(HomeActivity.this, RegionsActivity.class);
         intent.putExtra(RegionsActivity.KEY_BUNDLE_REGIONS, regions);
         startActivity(intent);
+        finish();
     }
 }

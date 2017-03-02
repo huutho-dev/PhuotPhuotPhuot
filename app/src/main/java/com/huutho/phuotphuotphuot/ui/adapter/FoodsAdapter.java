@@ -13,6 +13,7 @@ import com.huutho.phuotphuotphuot.base.adapter.IBaseAdapterCallback;
 import com.huutho.phuotphuotphuot.ui.entity.Food;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
 
+import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 
@@ -39,7 +40,7 @@ public class FoodsAdapter extends BaseRVAdapter<FoodsAdapter.ViewHolder, Food> {
     }
 
     public class ViewHolder extends BaseViewHolder {
-        @BindViews(R.id.image_item_foods)
+        @BindView(R.id.image_item_foods)
         ImageView imgFood;
         public ViewHolder(View itemView) {
             super(itemView);

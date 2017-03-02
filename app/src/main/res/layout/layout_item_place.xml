@@ -10,6 +10,8 @@
         android:layout_height="@dimen/layout_item_place_height_item"
         android:elevation="@dimen/spacing_0_4dp">
 
+
+
         <ImageView
             android:id="@+id/layout_item_place_imv_desc"
             android:layout_width="match_parent"
@@ -50,6 +52,8 @@
                 android:textSize="@dimen/text_size_mini" />
 
         </LinearLayout>
+
+        <include layout="@layout/layout_loading"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
 

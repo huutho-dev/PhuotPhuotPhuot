@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.entity;
 
 import android.database.Cursor;
+import android.os.Parcel;
 
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
@@ -120,4 +121,45 @@ public class PlaceRested extends BaseEntity {
                 ", mIdPlace='" + mIdPlace + '\'' +
                 '}';
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mIdPlaceRested);
+        dest.writeString(this.mNamePlaceRested);
+        dest.writeString(this.mLatLng);
+        dest.writeString(this.mImagePlaceRested);
+        dest.writeString(this.mIntroPlaceRested);
+        dest.writeString(this.mPhoneNumberPlace);
+        dest.writeString(this.mPrice);
+        dest.writeString(this.mIdPlace);
+    }
+
+    protected PlaceRested(Parcel in) {
+        this.mIdPlaceRested = in.readString();
+        this.mNamePlaceRested = in.readString();
+        this.mLatLng = in.readString();
+        this.mImagePlaceRested = in.readString();
+        this.mIntroPlaceRested = in.readString();
+        this.mPhoneNumberPlace = in.readString();
+        this.mPrice = in.readString();
+        this.mIdPlace = in.readString();
+    }
+
+    public static final Creator<PlaceRested> CREATOR = new Creator<PlaceRested>() {
+        @Override
+        public PlaceRested createFromParcel(Parcel source) {
+            return new PlaceRested(source);
+        }
+
+        @Override
+        public PlaceRested[] newArray(int size) {
+            return new PlaceRested[size];
+        }
+    };
 }

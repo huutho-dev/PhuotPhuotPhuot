@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,9 @@ import com.huutho.phuotphuotphuot.ui.adapter.FoodsAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.Food;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 
+import butterknife.BindView;
 import butterknife.BindViews;
+import butterknife.ButterKnife;
 
 /**
  * Created by HuuTho on 2/16/2017.
@@ -22,7 +25,7 @@ import butterknife.BindViews;
 
 public class PlaceDetailFoodFragment extends BaseFragment implements IBaseAdapterCallback<Food> {
 
-    @BindViews(R.id.fragment_place_detail_food_list_food)
+    @BindView(R.id.fragment_place_detail_food_list_food)
     RecyclerView mRvFoods ;
     private FoodsAdapter mFoodAdapter;
     private GridLayoutManager layoutManager;
@@ -40,6 +43,7 @@ public class PlaceDetailFoodFragment extends BaseFragment implements IBaseAdapte
 
     @Override
     public void bindViewToFragment() {
+        ButterKnife.bind(this,getView());
         mFoodAdapter = new FoodsAdapter(mContext,this);
         layoutManager = initGridLayoutManager(mActivity,2);
         mRvFoods.setLayoutManager(layoutManager);

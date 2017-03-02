@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -8,10 +9,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,7 +70,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
 
     public static PlaceDetailIntroFragment newInstance(Place place) {
         Bundle args = new Bundle();
-        args.putSerializable(BUNDLE_KEY_DETAIL_INTRO, place);
+        args.putParcelable(BUNDLE_KEY_DETAIL_INTRO, place);
         PlaceDetailIntroFragment fragment = new PlaceDetailIntroFragment();
         fragment.setArguments(args);
         return fragment;
@@ -75,9 +78,9 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mPlace = getBundleData(this.getArguments());
+        LogUtils.e("huutho",mPlace.toString());
         super.onCreate(savedInstanceState);
-        mPlace = getBundleData(getArguments());
-
     }
 
     @Override
@@ -103,12 +106,13 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     }
 
     private Place getBundleData(Bundle saveInstance) {
-        return (Place) saveInstance.getSerializable(BUNDLE_KEY_DETAIL_INTRO);
+        return (Place) saveInstance.getParcelable(BUNDLE_KEY_DETAIL_INTRO);
     }
 
     @Override
     public void fragmentReady() {
         mTextIntro.setText(Html.fromHtml(mPlace.getmIntro()));
+        LogUtils.e("huutho","info : " + mPlace.getmIntro());
     }
 
     @Override
@@ -144,9 +148,10 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.layout_image_detail, container, false);
+            ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.loading);
             ImageView imageView = (ImageView) view.findViewById(R.id.image_detail);
             imageView.setImageResource(R.drawable.ic_location_searching);
-            ImageUtils.loadImageWithPicasso(mContext, datas.get(position).getmLinkImage(), imageView);
+            ImageUtils.loadImage(mContext, datas.get(position).getmLinkImage(), imageView,progressBar);
             container.addView(view);
             return view;
         }

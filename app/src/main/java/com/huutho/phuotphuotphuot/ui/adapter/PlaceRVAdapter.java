@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.huutho.phuotphuotphuot.R;
@@ -47,7 +48,7 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
 
         holder.mTitle.setText(title);
         holder.mCity.setText(city);
-        ImageUtils.loadImageWithPicasso(mContext,urlImage,holder.mImage);
+        ImageUtils.loadImage(mContext,urlImage,holder.mImage, holder.progressBar);
 
         LogUtils.e("huutho",place.getmUrlImage());
 
@@ -66,6 +67,8 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
         TextView mTitle;
         @BindView(R.id.layout_item_place_tv_city_of_place)
         TextView mCity;
+        @BindView(R.id.loading)
+        ProgressBar progressBar;
 
         protected ViewHolder(View itemView) {
             super(itemView);

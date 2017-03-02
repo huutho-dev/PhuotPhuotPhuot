@@ -102,6 +102,7 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
             case R.id.act_intro_btn_next:
                 if (currentPosition == 3) {
                     startActivity(new Intent(IntroActivity.this, HomeActivity.class));
+                    finish();
                 } else {
                     mLastPositionPage = currentPosition;
                     currentPosition++;
