@@ -14,7 +14,6 @@ import com.huutho.phuotphuotphuot.base.adapter.BaseViewHolder;
 import com.huutho.phuotphuotphuot.base.adapter.IBaseAdapterCallback;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +22,6 @@ import butterknife.ButterKnife;
  * Created by HuuTho on 1/24/2017.
  */
 public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Place> {
-    private final String TAG = PlaceRVAdapter.class.getSimpleName();
-
     public interface IPlaceAdapterListener extends IBaseAdapterCallback<Place> {
 
     }
@@ -42,15 +39,13 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
     public void onAdapterReady(ViewHolder holder, final int position) {
         final Place place = (Place) mDatas.get(position);
 
-        String title = place.getmNamePlace();
-        String urlImage = place.getmUrlImage();
-        String city = place.getmCity();
+        String title = place.mNamePlace;
+        String urlImage = place.mUrlImage;
+        String city = place.mCity;
 
         holder.mTitle.setText(title);
         holder.mCity.setText(city);
         ImageUtils.loadImage(mContext,urlImage,holder.mImage, holder.progressBar);
-
-        LogUtils.e("huutho",place.getmUrlImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

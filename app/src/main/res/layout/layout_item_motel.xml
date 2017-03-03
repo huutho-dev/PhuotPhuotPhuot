@@ -8,13 +8,13 @@
 
     <ImageView
         android:scaleType="fitXY"
-        android:id="@+id/image_item_foods"
+        android:id="@+id/layout_item_motel_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-     />
+        />
 
     <TextView
-        android:id="@+id/name_item_foods"
+        android:id="@+id/layout_item_motel_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,7 +24,8 @@
         android:padding="@dimen/spacing_0_4dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_1_10sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <include layout="@layout/layout_loading" />
 </RelativeLayout>

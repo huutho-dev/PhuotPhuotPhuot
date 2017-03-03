@@ -1,15 +1,13 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
 import com.huutho.phuotphuotphuot.ui.entity.ImagePlace;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TableImagePlace;
 
@@ -40,6 +37,8 @@ import me.relex.circleindicator.CircleIndicator;
 public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
     private static final String BUNDLE_KEY_DETAIL_INTRO = "bundle.key.detail.intro";
     private static final int TIME_TO_NEXT = 3500;
+    @BindView(R.id.collapsingToolbar)
+    CollapsingToolbarLayout mCollapsingToolbar;
     @BindView(R.id.fragment_place_detail_intro_toolbar)
     Toolbar mToobar;
     @BindView(R.id.fragment_place_detail_intro_view_pager)
@@ -64,7 +63,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
                 mCurrentPage++;
             }
             mViewpage.setCurrentItem(mCurrentPage);
-            mHandle.postDelayed(this,TIME_TO_NEXT);
+            mHandle.postDelayed(this, TIME_TO_NEXT);
         }
     };
 
@@ -79,7 +78,6 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mPlace = getBundleData(this.getArguments());
-        LogUtils.e("huutho",mPlace.toString());
         super.onCreate(savedInstanceState);
     }
 
@@ -89,20 +87,28 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     }
 
     @Override
-    public void bindViewToFragment() {
+    public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, getView());
-        this.mToobar.setTitle("Intro");
+
+        initToolbar();
+
         this.mListImage = TableImagePlace
                 .getInstance()
                 .getListData(
                         DbContracts.TableImagePlace.IMAGE_PLACE_ID_PLACE,
-                        new String[]{mPlace.getmIdPlace()}, null);
+                        new String[]{mPlace.mIdPlace}, null);
         this.mPagerAdapter = new IntroDetailPagerAdapter(mContext, mListImage);
         this.mSizeImage = mListImage.size();
         this.mViewpage.setAdapter(mPagerAdapter);
         this.mViewpage.addOnPageChangeListener(this);
         this.mIndicator.setViewPager(mViewpage);
-        this.mHandle.postDelayed(autoNextImage,TIME_TO_NEXT);
+        this.mHandle.postDelayed(autoNextImage, TIME_TO_NEXT);
+    }
+
+    private void initToolbar() {
+        mCollapsingToolbar.setTitle(mPlace.mNamePlace);
+        mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.colorTransparent));
+        mCollapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
     }
 
     private Place getBundleData(Bundle saveInstance) {
@@ -111,8 +117,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
 
     @Override
     public void fragmentReady() {
-        mTextIntro.setText(Html.fromHtml(mPlace.getmIntro()));
-        LogUtils.e("huutho","info : " + mPlace.getmIntro());
+        mTextIntro.setText(Html.fromHtml(mPlace.mIntro));
     }
 
     @Override
@@ -122,7 +127,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
 
     @Override
     public void onPageSelected(int position) {
-        mCurrentPage = position ;
+        mCurrentPage = position;
         mHandle.removeCallbacks(autoNextImage);
     }
 
@@ -151,7 +156,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
             ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.loading);
             ImageView imageView = (ImageView) view.findViewById(R.id.image_detail);
             imageView.setImageResource(R.drawable.ic_location_searching);
-            ImageUtils.loadImage(mContext, datas.get(position).getmLinkImage(), imageView,progressBar);
+            ImageUtils.loadImage(mContext, datas.get(position).getmLinkImage(), imageView, progressBar);
             container.addView(view);
             return view;
         }

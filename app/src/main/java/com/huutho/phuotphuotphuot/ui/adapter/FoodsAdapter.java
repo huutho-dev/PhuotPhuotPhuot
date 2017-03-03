@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.adapter.BaseRVAdapter;
@@ -14,7 +16,6 @@ import com.huutho.phuotphuotphuot.ui.entity.Food;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 
 /**
@@ -35,16 +36,22 @@ public class FoodsAdapter extends BaseRVAdapter<FoodsAdapter.ViewHolder, Food> {
     @Override
     public void onAdapterReady(FoodsAdapter.ViewHolder holder, int position) {
         Food food = (Food) mDatas.get(position);
-        ImageUtils.loadImage(mContext,food.mIntroFood,holder.imgFood);
+        holder.nameFood.setText(food.mNameFood);
+        ImageUtils.loadImage(mContext,food.mImageFood,holder.imgFood,holder.progressBar);
         holder.itemView.setOnClickListener(new OnRecyclerViewItemClickListener(food,position));
     }
 
     public class ViewHolder extends BaseViewHolder {
         @BindView(R.id.image_item_foods)
         ImageView imgFood;
+        @BindView(R.id.name_item_foods)
+        TextView nameFood;
+        @BindView(R.id.loading)
+        ProgressBar progressBar;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 }

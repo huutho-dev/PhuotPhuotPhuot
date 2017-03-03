@@ -1,5 +1,7 @@
 package com.huutho.phuotphuotphuot.app.retrofit;
 
+import com.huutho.phuotphuotphuot.location.RoutesLocation;
+
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -9,23 +11,25 @@ import retrofit.http.Query;
  */
 
 public interface ApiRequest {
+        public static final String MODE_DRIVING ="driving";
+        public static final String MODE_WALKING ="walking";
+        public static final String MODE_BICYCLING ="bicycling";
+        public static final String MODE_TRANSIT ="transit";
+        public static final String LANGUAGE ="vi";
+
+
 
     /**
      * @param latlngOrigin     : latlng start point
      * @param latlngDesination : latlng end point
      * @param mode             : driving (default) , walking , bicycling , transit
-     * @param alternatives     : True - False ; If set to true, specifies that the Directions service may provide more than one route alternative in the response.
      * @param language         : en, fr, ja,vi ; The language in which to return results.
      */
 
     @GET("/maps/api/directions/json?")
-     void getDirection(
+     Call<RoutesLocation> getDirection(
             @Query("origin") String latlngOrigin,
-            @Query("destination ") String latlngDesination,
-            @Query("mode") String mode,
-            @Query("alternatives") String alternatives,
-            @Query("language") String language,
-            @Query("key") String key
+            @Query("destination") String latlngDesination
     );
 
     @GET("/maps/api/geocode/json?")

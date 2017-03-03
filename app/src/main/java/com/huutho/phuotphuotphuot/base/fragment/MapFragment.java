@@ -4,20 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-
-import com.huutho.phuotphuotphuot.app.retrofit.ApiRequest;
-import com.huutho.phuotphuotphuot.app.retrofit.ApiRequestHelper;
-import com.huutho.phuotphuotphuot.app.retrofit.LocationEntity;
-import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import android.view.View;
 
 /**
  * Created by HuuTho on 2/26/2017.
@@ -32,19 +21,15 @@ public abstract class MapFragment extends BaseFragment {
     }
 
     @Override
-    public void bindViewToFragment() {
-
-    }
+    public abstract void bindViewToFragment(View view, Bundle saveInstance);
 
     @Override
-    public void fragmentReady() {
-
-    }
+    public abstract void fragmentReady() ;
 
     @Override
     public void onResume() {
-        super.onResume();
         LocalBroadcastManager.getInstance(mActivity).registerReceiver(onLocationReceiver, new IntentFilter("onLocationChanged"));
+        super.onResume();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -31,7 +32,7 @@ public class UpdateFragment extends BaseFragment{
     }
 
     @Override
-    public void bindViewToFragment() {
+    public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this,getView());
         mToolbar.setTitle("Update");
         mToolbar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));

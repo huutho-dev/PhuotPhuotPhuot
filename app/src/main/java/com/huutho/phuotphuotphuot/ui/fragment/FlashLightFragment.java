@@ -3,8 +3,10 @@ package com.huutho.phuotphuotphuot.ui.fragment;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
+import android.view.View;
 import android.widget.CompoundButton;
 
 import com.huutho.phuotphuotphuot.R;
@@ -36,7 +38,7 @@ public class FlashLightFragment extends BaseFragment {
     }
 
     @Override
-    public void bindViewToFragment() {
+    public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, getView());
     }
 

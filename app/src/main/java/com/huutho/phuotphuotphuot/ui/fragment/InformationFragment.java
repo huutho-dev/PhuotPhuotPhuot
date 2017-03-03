@@ -1,7 +1,9 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
@@ -27,7 +29,7 @@ public class InformationFragment extends BaseFragment {
     }
 
     @Override
-    public void bindViewToFragment() {
+    public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, getView());
         mToobar.setTitle("Information");
         mToobar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));

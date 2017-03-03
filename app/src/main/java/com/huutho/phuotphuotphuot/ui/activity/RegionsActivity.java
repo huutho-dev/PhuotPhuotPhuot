@@ -1,20 +1,16 @@
 package com.huutho.phuotphuotphuot.ui.activity;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,11 +22,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huutho.phuotphuotphuot.R;
-import com.huutho.phuotphuotphuot.app.AppController;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.ui.adapter.ChooseCityAdapter;
@@ -39,11 +33,9 @@ import com.huutho.phuotphuotphuot.ui.entity.City;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.ui.fragment.InformationFragment;
 import com.huutho.phuotphuotphuot.ui.fragment.UpdateFragment;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TablePlace;
 import com.huutho.phuotphuotphuot.widget.ClearEditText;
-import com.huutho.phuotphuotphuot.widget.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.Locale;

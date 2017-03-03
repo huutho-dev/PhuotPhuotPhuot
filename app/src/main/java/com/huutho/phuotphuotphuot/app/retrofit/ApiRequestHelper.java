@@ -14,10 +14,10 @@ public class ApiRequestHelper {
     private static final String MAP_BASE_URL = "https://maps.googleapis.com";
 
     public Retrofit getMapApiRequest() {
-        Retrofit retrofit = new Retrofit.Builder()
+        return  new Retrofit.Builder()
                 .baseUrl(MAP_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        return retrofit;
+
     }
 }

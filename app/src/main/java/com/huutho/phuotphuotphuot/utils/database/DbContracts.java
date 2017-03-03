@@ -26,7 +26,7 @@ public final class DbContracts {
         public static final String RESTED_URL_IMAGE = "hinh_anh_dia_diem_nghi_ngoi";
         public static final String RESTED_INTRO = "gioi_thieu_dia_diem_nghi_ngoi";
         public static final String RESTED_PHONE_NUMBER = "sdt_dia_diem_nghi_ngoi";
-        public static final String RESTED_PRICE = "gia_tien_dia_diem_nghi_ngoi";
+        public static final String RESTED_PRICE = "gia_tien_dia_chi_nghi_ngoi";
         public static final String RESTED_ID_PLACE = "id_dia_danh";
     }
 

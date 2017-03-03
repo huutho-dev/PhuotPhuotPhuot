@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.huutho.phuotphuotphuot.utils.LogUtils;
+
 /**
  * Created by HuuTho on 1/17/2017.
  */
@@ -31,6 +33,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtils.v("huutho","onCreate");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.v("huutho","onResume");
     }
 
     @Nullable
@@ -43,13 +52,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bindViewToFragment();
+        bindViewToFragment(view,savedInstanceState);
         fragmentReady();
     }
 
     public abstract int setContentLayout();
 
-    public abstract void bindViewToFragment();
+    public abstract void bindViewToFragment(View view, Bundle savedInstanceState);
 
     public abstract void fragmentReady();
 

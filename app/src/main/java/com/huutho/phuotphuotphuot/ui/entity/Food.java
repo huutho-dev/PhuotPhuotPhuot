@@ -17,6 +17,10 @@ public class Food extends BaseEntity {
     public String mImageFood;
     public String mIdPlace;
 
+    public Food(){
+
+    }
+
     public Food(String mIdFood, String mNameFood, String mIntroFood, String mImageFood, String mIdPlace) {
         this.mIdFood = mIdFood;
         this.mNameFood = mNameFood;
