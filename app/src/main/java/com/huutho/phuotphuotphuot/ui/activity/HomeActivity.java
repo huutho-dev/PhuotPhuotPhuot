@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.app.AppController;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
+import com.huutho.phuotphuotphuot.utils.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +40,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -56,6 +56,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void activityReady() {
         blocWidth = AppController.WIDTH_SCREEN / 16;
         blocHeight = AppController.HEIGHT_SCREEN / 24;
+        ImageUtils.loadImageResource(this,R.drawable.background_vietnam,imgVietNam);
     }
 
     @Override

@@ -22,7 +22,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.IntroActivity">
+        <activity
+            android:name=".ui.activity.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,6 +39,8 @@
         <activity
             android:name=".ui.activity.PlaceDetailActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.fragment.detail.FoodAndMotelDetail"/>
+        <activity android:name=".ui.activity.GeneralDetailActivity"/>
 
         <service android:name=".location.LocationService"
             android:exported="false"/>

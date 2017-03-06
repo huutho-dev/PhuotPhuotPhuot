@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -12,17 +13,27 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.app.retrofit.ApiRequest;
 import com.huutho.phuotphuotphuot.app.retrofit.ApiRequestHelper;
 import com.huutho.phuotphuotphuot.base.fragment.MapFragment;
+import com.huutho.phuotphuotphuot.location.AnalyzeSteps;
 import com.huutho.phuotphuotphuot.location.RoutesLocation;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
+import com.huutho.phuotphuotphuot.utils.MapUtils;
 import com.huutho.phuotphuotphuot.utils.LogUtils;
+import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
+
+import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -82,19 +93,6 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
 
     @Override
     public void onLocationChange(String location) {
-//        if (mMap != null) {
-//            LatLng myLocation = LocationUtils.stringLatLngToLatLng(location);
-//            MarkerOptions options = new MarkerOptions();
-//            options.position(myLocation);
-//            options.snippet("U are here");
-//            options.title("This");
-//            options.icon(null);
-//            mMap.addMarker(options);
-//
-//            CameraPosition cameraPosition = new CameraPosition(myLocation, 15, 15, 15);
-//            CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-//            mMap.animateCamera(cameraUpdate);
-//        }
     }
 
     @Override
@@ -117,27 +115,41 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
             }
         }
 
-        String destination = "21.015740,105.805471";
-        String origin = "21.042658,105.796845";
+        String destination = MapUtils.convertStandStrLocation(mPlace.mLatLng);
+            String origin = SharePreferencesUtils.getInstances().getLastKnowLocation();
+        LogUtils.e("xxhuutho",origin + " - " + destination);
 
         Retrofit retrofit = new ApiRequestHelper().getMapApiRequest();
         ApiRequest request = retrofit.create(ApiRequest.class);
-        Call<RoutesLocation> call = request.getDirection(origin, destination);
+        Call<RoutesLocation> call = request.getDirection(origin, destination,ApiRequest.MODE_DRIVING,ApiRequest.LANGUAGE);
         call.enqueue(this);
 
     }
 
     @Override
     public void onResponse(Response<RoutesLocation> response, Retrofit retrofit) {
-        LogUtils.e("xxhuutho", "response");
-        LogUtils.e("xxhuutho", response.body().routes.get(0).legs.toString());
+
+        if (response.body() !=null){
+            RoutesLocation routesLocation = response.body();
+            AnalyzeSteps analyzeSteps = new AnalyzeSteps(routesLocation.routes.get(0).legs.get(0).steps);
+            ArrayList<LatLng> latLngs = analyzeSteps.getLatLngs();
+            PolylineOptions polylineOptions = new PolylineOptions();
+            polylineOptions.addAll(latLngs);
+            polylineOptions.color(Color.BLUE);
+            polylineOptions.width(10);
+            polylineOptions.clickable(true);
+            polylineOptions.geodesic(true);
+
+            CameraPosition cameraPosition = new CameraPosition(latLngs.get(0),12,12,17);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+            mMap.animateCamera(cameraUpdate);
+            mMap.addPolyline(polylineOptions);
+        }
 
     }
 
     @Override
     public void onFailure(Throwable t) {
-        LogUtils.e("xxhuutho", "Throwable");
-        LogUtils.e("xxhuutho", t.toString() + t.getMessage());
     }
 
 

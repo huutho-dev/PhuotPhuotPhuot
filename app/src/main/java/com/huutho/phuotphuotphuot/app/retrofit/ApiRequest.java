@@ -29,7 +29,9 @@ public interface ApiRequest {
     @GET("/maps/api/directions/json?")
      Call<RoutesLocation> getDirection(
             @Query("origin") String latlngOrigin,
-            @Query("destination") String latlngDesination
+            @Query("destination") String latlngDesination,
+            @Query("mode") String mode,
+            @Query("language") String language
     );
 
     @GET("/maps/api/geocode/json?")

@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import com.crashlytics.android.Crashlytics;
@@ -18,6 +19,7 @@ public class AppController extends Application {
             ourInstance = new AppController();
         return ourInstance;
     }
+
 
     @Override
     public void onCreate() {

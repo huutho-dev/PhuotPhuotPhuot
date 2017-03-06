@@ -1,13 +1,19 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +24,8 @@ import android.widget.TextView;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
+import com.huutho.phuotphuotphuot.ui.activity.GeneralDetailActivity;
+import com.huutho.phuotphuotphuot.ui.activity.PlaceDetailActivity;
 import com.huutho.phuotphuotphuot.ui.entity.ImagePlace;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
@@ -34,7 +42,7 @@ import me.relex.circleindicator.CircleIndicator;
  * Created by HuuTho on 2/15/2017.
  */
 
-public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
+public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private static final String BUNDLE_KEY_DETAIL_INTRO = "bundle.key.detail.intro";
     private static final int TIME_TO_NEXT = 3500;
     @BindView(R.id.collapsingToolbar)
@@ -47,6 +55,8 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     CircleIndicator mIndicator;
     @BindView(R.id.fragment_place_detail_intro_tv_intro)
     TextView mTextIntro;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     private List<ImagePlace> mListImage;
     private IntroDetailPagerAdapter mPagerAdapter;
@@ -89,9 +99,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     @Override
     public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, getView());
-
         initToolbar();
-
         this.mListImage = TableImagePlace
                 .getInstance()
                 .getListData(
@@ -103,6 +111,9 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
         this.mViewpage.addOnPageChangeListener(this);
         this.mIndicator.setViewPager(mViewpage);
         this.mHandle.postDelayed(autoNextImage, TIME_TO_NEXT);
+        this.fab.setOnClickListener(this);
+
+
     }
 
     private void initToolbar() {
@@ -134,6 +145,13 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.fab) {
+            GeneralDetailActivity.newInstance((PlaceDetailActivity)mActivity,mPlace);
+        }
     }
 
     private class IntroDetailPagerAdapter extends PagerAdapter {

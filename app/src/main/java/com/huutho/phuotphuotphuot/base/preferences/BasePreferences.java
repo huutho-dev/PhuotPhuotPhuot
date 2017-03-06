@@ -13,7 +13,7 @@ public abstract class BasePreferences {
 
 
     public  BasePreferences (){
-        mContext = AppController.getInstance();
+        mContext = AppController.getInstance().getApplicationContext();
     }
 
     public SharedPreferences getSharePreferences(){

@@ -32,7 +32,7 @@ public class TableFood extends DbHelper implements DbCommonOperator<Food> {
         Cursor cursor = null;
         openDb();
         try {
-            cursor = mSqlDatabase.query(DbContracts.TableFood.TABLE_FOOD, null, selection +"=?", args, null, null, orderBy);
+            cursor = mSqlDatabase.query(DbContracts.TableFood.TABLE_FOOD, null, selection + "=?", args, null, null, orderBy);
             cursor.moveToFirst();
             int indexFoodId = cursor.getColumnIndex(DbContracts.TableFood.FOOD_ID);
             int indexFoodPlaceId = cursor.getColumnIndex(DbContracts.TableFood.FOOD_ID_PLACE);
@@ -60,7 +60,31 @@ public class TableFood extends DbHelper implements DbCommonOperator<Food> {
 
     @Override
     public Food getItemData(String selection, String[] args) {
-        return null;
+        Food food = null;
+        Cursor cursor = null;
+        openDb();
+        try {
+            cursor = mSqlDatabase.query(DbContracts.TableFood.TABLE_FOOD, null, selection + "=?", args, null, null, null);
+            cursor.moveToFirst();
+            int indexFoodId = cursor.getColumnIndex(DbContracts.TableFood.FOOD_ID);
+            int indexFoodPlaceId = cursor.getColumnIndex(DbContracts.TableFood.FOOD_ID_PLACE);
+            int indexFoodName = cursor.getColumnIndex(DbContracts.TableFood.FOOD_NAME);
+            int indexFoodUrlImg = cursor.getColumnIndex(DbContracts.TableFood.FOOD_URL_IMAGE);
+            int indexFoodIntro = cursor.getColumnIndex(DbContracts.TableFood.FOOD_INTRO);
+
+            food = new Food();
+            food.mIdFood = cursor.getString(indexFoodId);
+            food.mIdPlace = cursor.getString(indexFoodPlaceId);
+            food.mImageFood = cursor.getString(indexFoodUrlImg);
+            food.mNameFood = cursor.getString(indexFoodName);
+            food.mIntroFood = cursor.getString(indexFoodIntro);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeDb();
+        if (cursor != null && !cursor.isClosed()) cursor.close();
+        return food;
     }
 
     @Override

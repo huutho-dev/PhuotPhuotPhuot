@@ -6,22 +6,16 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.huutho.phuotphuotphuot.R;
-import com.huutho.phuotphuotphuot.app.AppController;
 import com.huutho.phuotphuotphuot.app.Config;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 import com.huutho.phuotphuotphuot.ui.adapter.IntroPagerAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.IntroItem;
 import com.huutho.phuotphuotphuot.utils.FileUtils;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -50,16 +44,22 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
-        // lấy biến kiểm tra xem có phải lần đầu run app không
         boolean isFirstLoad = SharePreferencesUtils.getInstances().getFirstRunApp();
         if (isFirstLoad) {
-            SharePreferencesUtils.getInstances().setFirstRunApp(false);
-            FileUtils.copyDatabase(Config.PATH_DB);
+            getHandler().post(runFirstLoad);
         } else {
             startActivity(new Intent(IntroActivity.this, HomeActivity.class));
             finish();
         }
     }
+
+    private Runnable runFirstLoad = new Runnable() {
+        @Override
+        public void run() {
+            SharePreferencesUtils.getInstances().setFirstRunApp(false);
+            FileUtils.copyDatabase(Config.PATH_DB);
+        }
+    };
 
     @Override
     public int setContentLayout() {

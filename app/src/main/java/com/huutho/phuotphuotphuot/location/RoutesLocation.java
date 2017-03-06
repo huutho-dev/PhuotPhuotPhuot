@@ -1,5 +1,8 @@
 package com.huutho.phuotphuotphuot.location;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,30 +12,39 @@ import java.util.List;
 public class RoutesLocation {
 
     /**
-     * routes : [{"legs":[{"distance":{"text":"4,1 km","value":4118},"duration":{"text":"12 phút","value":709},"end_address":"514 Nguyễn Chí Thanh, Láng Hạ, Đống Đa, Hà Nội, Việt Nam","end_location":{"lat":21.0157579,"lng":105.8054525},"start_address":"233 Tô Hiệu, Nghĩa Đô, Cầu Giấy, Hà Nội, Việt Nam","start_location":{"lat":21.0428654,"lng":105.7968491},"steps":[{"distance":{"text":"73 m","value":73},"duration":{"text":"1 phút","value":14},"end_location":{"lat":21.0429014,"lng":105.797547},"html_instructions":"Đi về hướng <b>Đông<\/b> về phía <b>Ngõ 203 Hoàng Quốc Việt<\/b><div style=\"font-size:0.9em\">Băng qua Ngân Hàng Tmcp Đầu Tư &amp; Phát Triển Việt Nam (Bidv) (ở phía bên trái)<\/div>","polyline":{"points":"}|l_CimvdS@_AGkA"},"start_location":{"lat":21.0428654,"lng":105.7968491},"travel_mode":"DRIVING"},{"distance":{"text":"0,4 km","value":426},"duration":{"text":"1 phút","value":80},"end_location":{"lat":21.0390703,"lng":105.7976063},"html_instructions":"Rẽ <b>phải<\/b> vào <b>Nguyễn Văn Huyên<\/b><div style=\"font-size:0.9em\">Băng qua Điểm đầu 12, 39 (ở bên phải cách 300&nbsp;m)<\/div>","maneuver":"turn-right","polyline":{"points":"c}l_CuqvdSxIB`@?pBEfDEfBC"},"start_location":{"lat":21.0429014,"lng":105.797547},"travel_mode":"DRIVING"},{"distance":{"text":"1,0 km","value":957},"duration":{"text":"3 phút","value":163},"end_location":{"lat":21.0344527,"lng":105.8049703},"html_instructions":"Rẽ <b>trái<\/b> vào <b>Nguyễn Khánh Toàn<\/b><div style=\"font-size:0.9em\">Băng qua Cửa Hàng Nội Thất Ô Tô Quang Vinh (ở phía bên phải)<\/div>","maneuver":"turn-left","polyline":{"points":"eel_CarvdSP?A_@C_BAy@?o@@a@Fa@HYJW^q@Xa@PY|B{CT]nCsDRY|B}CDIdDeEvBcDjAwA"},"start_location":{"lat":21.0390703,"lng":105.7976063},"travel_mode":"DRIVING"},{"distance":{"text":"0,6 km","value":592},"duration":{"text":"2 phút","value":92},"end_location":{"lat":21.0301642,"lng":105.8016095},"html_instructions":"Rẽ <b>phải<\/b> tại KocoPlus Co., Ltd. vào <b>Bưởi<\/b>","maneuver":"turn-right","polyline":{"points":"ihk_Ca`xdSjI~EbBlAvHjGRL|AvA"},"start_location":{"lat":21.0344527,"lng":105.8049703},"travel_mode":"DRIVING"},{"distance":{"text":"2,0 km","value":1977},"duration":{"text":"5 phút","value":325},"end_location":{"lat":21.0155611,"lng":105.8048207},"html_instructions":"Tiếp tục vào <b>Láng<\/b><div style=\"font-size:0.9em\">Băng qua Shop Thế Giới Giày Om (ở phía bên phải)<\/div>","polyline":{"points":"omj_CakwdSVPfLpJZN|@r@jAz@hB~@tCxAZHj@L~ATV@T?TCZGRI`Aa@NQLO\\i@f@o@BCrA_Bl@u@lA{Al@o@`@a@h@c@h@[zDcBlAm@PKxDcBRIhF_Cd@SPKVOnAu@xA}@lA_Aj@g@hAcAt@w@"},"start_location":{"lat":21.0301642,"lng":105.8016095},"travel_mode":"DRIVING"},{"distance":{"text":"93 m","value":93},"duration":{"text":"1 phút","value":35},"end_location":{"lat":21.0157579,"lng":105.8054525},"html_instructions":"Rẽ <b>trái<\/b> vào <b>Nguyễn Chí Thanh<\/b>/<b>Trần Duy Hưng<\/b><div style=\"font-size:0.9em\">Băng qua Shop Thời Trang Supia (ở phía bên phải)<\/div><div style=\"font-size:0.9em\">Điểm đến sẽ ở bên phải<\/div>","maneuver":"turn-left","polyline":{"points":"grg_Cc_xdSHINOJKQU{@aA"},"start_location":{"lat":21.0155611,"lng":105.8048207},"travel_mode":"DRIVING"}]}]}]
+     * routes : [{"legs":[{"distance":{"text":"4,1 km","value":4118},"duration":{"text":"12 phút","value":709},"end_address":"514 Nguyễn Chí Thanh, Láng Hạ, Đống Đa, Hà Nội, Việt Nam","endLocation":{"lat":21.0157579,"lng":105.8054525},"start_address":"233 Tô Hiệu, Nghĩa Đô, Cầu Giấy, Hà Nội, Việt Nam","start_location":{"lat":21.0428654,"lng":105.7968491},"steps":[{"distance":{"text":"73 m","value":73},"duration":{"text":"1 phút","value":14},"endLocation":{"lat":21.0429014,"lng":105.797547},"htmlInstructions":"Đi về hướng <b>Đông<\/b> về phía <b>Ngõ 203 Hoàng Quốc Việt<\/b><div style=\"font-size:0.9em\">Băng qua Ngân Hàng Tmcp Đầu Tư &amp; Phát Triển Việt Nam (Bidv) (ở phía bên trái)<\/div>","polyline":{"points":"}|l_CimvdS@_AGkA"},"start_location":{"lat":21.0428654,"lng":105.7968491},"travel_mode":"DRIVING"},{"distance":{"text":"0,4 km","value":426},"duration":{"text":"1 phút","value":80},"endLocation":{"lat":21.0390703,"lng":105.7976063},"htmlInstructions":"Rẽ <b>phải<\/b> vào <b>Nguyễn Văn Huyên<\/b><div style=\"font-size:0.9em\">Băng qua Điểm đầu 12, 39 (ở bên phải cách 300&nbsp;m)<\/div>","maneuver":"turn-right","polyline":{"points":"c}l_CuqvdSxIB`@?pBEfDEfBC"},"start_location":{"lat":21.0429014,"lng":105.797547},"travel_mode":"DRIVING"},{"distance":{"text":"1,0 km","value":957},"duration":{"text":"3 phút","value":163},"endLocation":{"lat":21.0344527,"lng":105.8049703},"htmlInstructions":"Rẽ <b>trái<\/b> vào <b>Nguyễn Khánh Toàn<\/b><div style=\"font-size:0.9em\">Băng qua Cửa Hàng Nội Thất Ô Tô Quang Vinh (ở phía bên phải)<\/div>","maneuver":"turn-left","polyline":{"points":"eel_CarvdSP?A_@C_BAy@?o@@a@Fa@HYJW^q@Xa@PY|B{CT]nCsDRY|B}CDIdDeEvBcDjAwA"},"start_location":{"lat":21.0390703,"lng":105.7976063},"travel_mode":"DRIVING"},{"distance":{"text":"0,6 km","value":592},"duration":{"text":"2 phút","value":92},"endLocation":{"lat":21.0301642,"lng":105.8016095},"htmlInstructions":"Rẽ <b>phải<\/b> tại KocoPlus Co., Ltd. vào <b>Bưởi<\/b>","maneuver":"turn-right","polyline":{"points":"ihk_Ca`xdSjI~EbBlAvHjGRL|AvA"},"start_location":{"lat":21.0344527,"lng":105.8049703},"travel_mode":"DRIVING"},{"distance":{"text":"2,0 km","value":1977},"duration":{"text":"5 phút","value":325},"endLocation":{"lat":21.0155611,"lng":105.8048207},"htmlInstructions":"Tiếp tục vào <b>Láng<\/b><div style=\"font-size:0.9em\">Băng qua Shop Thế Giới Giày Om (ở phía bên phải)<\/div>","polyline":{"points":"omj_CakwdSVPfLpJZN|@r@jAz@hB~@tCxAZHj@L~ATV@T?TCZGRI`Aa@NQLO\\i@f@o@BCrA_Bl@u@lA{Al@o@`@a@h@c@h@[zDcBlAm@PKxDcBRIhF_Cd@SPKVOnAu@xA}@lA_Aj@g@hAcAt@w@"},"start_location":{"lat":21.0301642,"lng":105.8016095},"travel_mode":"DRIVING"},{"distance":{"text":"93 m","value":93},"duration":{"text":"1 phút","value":35},"endLocation":{"lat":21.0157579,"lng":105.8054525},"htmlInstructions":"Rẽ <b>trái<\/b> vào <b>Nguyễn Chí Thanh<\/b>/<b>Trần Duy Hưng<\/b><div style=\"font-size:0.9em\">Băng qua Shop Thời Trang Supia (ở phía bên phải)<\/div><div style=\"font-size:0.9em\">Điểm đến sẽ ở bên phải<\/div>","maneuver":"turn-left","polyline":{"points":"grg_Cc_xdSHINOJKQU{@aA"},"start_location":{"lat":21.0155611,"lng":105.8048207},"travel_mode":"DRIVING"}]}]}]
      * status : OK
      */
-
+    @SerializedName("status")
     public String status;
-
+    @SerializedName("routes")
     public List<RoutesBean> routes;
 
 
     public class RoutesBean {
+        @SerializedName("legs")
         public List<LegsBean> legs;
 
         public class LegsBean {
-
+            @SerializedName("distance")
             public DistanceBean distance;
+            @SerializedName("duration")
             public DurationBean duration;
-            public String end_address;
-            public EndLocationBean end_location;
-            public String start_address;
-            public StartLocationBean start_location;
-            public List<StepsBean> steps;
+            @SerializedName("end_address")
+            public String endAddress;
+            @SerializedName("end_location")
+            public EndLocationBean endLocation;
+            @SerializedName("start_address")
+            public String startAddress;
+            @SerializedName("start_location")
+            public StartLocationBean startLocation;
+            @SerializedName("steps")
+            public ArrayList<StepsBean> steps;
 
             public class DistanceBean {
+                @SerializedName("text")
                 public String text;
+                @SerializedName("value")
                 public int value;
 
                 @Override
@@ -45,7 +57,9 @@ public class RoutesLocation {
             }
 
             public class DurationBean {
+                @SerializedName("text")
                 public String text;
+                @SerializedName("value")
                 public int value;
 
                 @Override
@@ -58,7 +72,9 @@ public class RoutesLocation {
             }
 
             public class EndLocationBean {
+                @SerializedName("lat")
                 public double lat;
+                @SerializedName("lng")
                 public double lng;
 
                 @Override
@@ -71,7 +87,9 @@ public class RoutesLocation {
             }
 
             public class StartLocationBean {
+                @SerializedName("lat")
                 public double lat;
+                @SerializedName("lng")
                 public double lng;
 
                 @Override
@@ -84,17 +102,24 @@ public class RoutesLocation {
             }
 
             public class StepsBean {
-
+                @SerializedName("distance")
                 public DistanceBeanX distance;
+                @SerializedName("duration")
                 public DurationBeanX duration;
-                public EndLocationBeanX end_location;
-                public String html_instructions;
-                public StartLocationBeanX start_location;
-                public String travel_mode;
+                @SerializedName("end_location")
+                public EndLocationBeanX endLocation;
+                @SerializedName("html_instructions")
+                public String htmlInstructions;
+                @SerializedName("start_location")
+                public StartLocationBeanX startLocation;
+                @SerializedName("travel_mode")
+                public String travelMode;
+                @SerializedName("maneuver")
                 public String maneuver;
 
                 public class DistanceBeanX {
-                    public String text;
+                    @SerializedName("text")
+                    public String text;  @SerializedName("value")
                     public int value;
 
                     @Override
@@ -107,7 +132,9 @@ public class RoutesLocation {
                 }
 
                 public class DurationBeanX {
+                    @SerializedName("text")
                     public String text;
+                    @SerializedName("value")
                     public int value;
 
                     @Override
@@ -120,7 +147,9 @@ public class RoutesLocation {
                 }
 
                 public class EndLocationBeanX {
+                    @SerializedName("lat")
                     public double lat;
+                    @SerializedName("lng")
                     public double lng;
 
                     @Override
@@ -133,7 +162,9 @@ public class RoutesLocation {
                 }
 
                 public class StartLocationBeanX {
+                    @SerializedName("lat")
                     public double lat;
+                    @SerializedName("lng")
                     public double lng;
 
                     @Override
@@ -150,10 +181,10 @@ public class RoutesLocation {
                     return "StepsBean{" +
                             "distance=" + distance +
                             ", duration=" + duration +
-                            ", end_location=" + end_location +
-                            ", html_instructions='" + html_instructions + '\'' +
-                            ", start_location=" + start_location +
-                            ", travel_mode='" + travel_mode + '\'' +
+                            ", endLocation=" + endLocation +
+                            ", htmlInstructions='" + htmlInstructions + '\'' +
+                            ", startLocation=" + startLocation +
+                            ", travelMode='" + travelMode + '\'' +
                             ", maneuver='" + maneuver + '\'' +
                             '}';
                 }
@@ -164,10 +195,10 @@ public class RoutesLocation {
                 return "LegsBean{" +
                         "distance=" + distance +
                         ", duration=" + duration +
-                        ", end_address='" + end_address + '\'' +
-                        ", end_location=" + end_location +
-                        ", start_address='" + start_address + '\'' +
-                        ", start_location=" + start_location +
+                        ", endAddress='" + endAddress + '\'' +
+                        ", endLocation=" + endLocation +
+                        ", startAddress='" + startAddress + '\'' +
+                        ", startLocation=" + startLocation +
                         ", steps=" + steps +
                         '}';
             }

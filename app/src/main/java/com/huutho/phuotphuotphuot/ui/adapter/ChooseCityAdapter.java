@@ -36,10 +36,10 @@ public class ChooseCityAdapter extends BaseRVAdapter<ChooseCityAdapter.ViewHolde
 
     public ChooseCityAdapter(Context context, int idZone,  ICitySelected callback) {
         super(context, callback);
-        cities = TableCity.getInstance().getListData(DbContracts.TableCity.CITY_ID_ZONE,new String[]{String.valueOf(idZone)},null);
+        cities = TableCity.getInstance().getListData(DbContracts.TableCity.CITY_ID_ZONE,
+                new String[]{String.valueOf(idZone)},null);
 
-        mSizeDatas = cities.size();
-        LogUtils.v("huutho",mSizeDatas+"");
+        mSizeDatas = cities.size();;
         setDatas(cities);
     }
 

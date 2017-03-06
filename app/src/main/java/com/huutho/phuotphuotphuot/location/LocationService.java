@@ -44,6 +44,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         super.onCreate();
         createGoogleApiClient();
 
+        getLastKnowLocation();
     }
 
     @Override
@@ -111,7 +112,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
 
     /**
-     *
      * @return Location request
      */
 
@@ -159,9 +159,4 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         }
         return null;
     }
-
-
-
-
-
 }

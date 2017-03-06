@@ -1,5 +1,6 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
 import com.huutho.phuotphuotphuot.ui.adapter.FoodsAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.Food;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
+import com.huutho.phuotphuotphuot.ui.fragment.detail.FoodAndMotelDetail;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TableFood;
 
@@ -85,7 +87,9 @@ public class PlaceDetailFoodFragment extends BaseFragment implements IBaseAdapte
 
     @Override
     public void onRecyclerViewItemClick(Food dataItem, View view, int position) {
-
+        Intent intent = new Intent(mActivity,FoodAndMotelDetail.class);
+        intent.putExtra(FoodAndMotelDetail.EXTRA_DETAIL_FRAGMENT,dataItem);
+        mActivity.startActivity(intent);
     }
 
 }

@@ -1,9 +1,20 @@
 package com.huutho.phuotphuotphuot.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.transition.TransitionInflater;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
@@ -14,6 +25,8 @@ import com.huutho.phuotphuotphuot.ui.fragment.PlaceDetailIntroFragment;
 import com.huutho.phuotphuotphuot.ui.fragment.PlaceDetailMapFragment;
 import com.huutho.phuotphuotphuot.ui.fragment.PlaceDetailMotelFragment;
 import com.huutho.phuotphuotphuot.widget.tab.TabBuilder;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +61,6 @@ public class PlaceDetailActivity extends BaseActivity {
     public void bindViewToLayout() {
         ButterKnife.bind(this);
         initTabAndViewPager(mTabLayout, mViewPager);
-
     }
 
     @Override
@@ -71,4 +83,10 @@ public class PlaceDetailActivity extends BaseActivity {
         tabBuilder.build();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

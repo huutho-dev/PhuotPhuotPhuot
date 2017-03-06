@@ -8,6 +8,12 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/to_map</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/to_map</item>
     </style>
 
 </resources>

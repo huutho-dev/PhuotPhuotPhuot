@@ -11,12 +11,10 @@ import com.huutho.phuotphuotphuot.utils.LogUtils;
  */
 public abstract class BaseActivity extends SupportActivity {
     private String TAG = BaseActivity.class.getSimpleName();
-
     public Handler mHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        TAG = this.getLocalClassName();
         super.onCreate(savedInstanceState);
         setContentView(setContentLayout());
         bindViewToLayout();

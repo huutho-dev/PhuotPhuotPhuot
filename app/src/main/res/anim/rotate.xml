@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set
+   android:fillAfter="true"
+    android:duration="@android:integer/config_mediumAnimTime" xmlns:android="http://schemas.android.com/apk/res/android">
+    <rotate
+        android:fromDegrees="0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toDegrees="180" />
+</set>

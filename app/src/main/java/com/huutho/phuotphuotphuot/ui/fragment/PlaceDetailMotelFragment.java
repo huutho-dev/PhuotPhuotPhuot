@@ -1,10 +1,14 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.adapter.IBaseAdapterCallback;
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
@@ -12,6 +16,7 @@ import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
 import com.huutho.phuotphuotphuot.ui.adapter.MotelAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.ui.entity.PlaceRested;
+import com.huutho.phuotphuotphuot.ui.fragment.detail.FoodAndMotelDetail;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TableRested;
 
@@ -24,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by HuuTho on 2/16/2017.
  */
 
-public class PlaceDetailMotelFragment extends BaseFragment implements IBaseAdapterCallback {
+public class PlaceDetailMotelFragment extends BaseFragment implements IBaseAdapterCallback<PlaceRested> {
     private static final String EXTRA_MOTEL_FRAGMENT ="extra.motel.fragment";
 
     @BindView(R.id.fragment_place_detail_motel_list_motel)
@@ -85,7 +90,9 @@ public class PlaceDetailMotelFragment extends BaseFragment implements IBaseAdapt
     }
 
     @Override
-    public void onRecyclerViewItemClick(BaseEntity dataItem, View view, int position) {
-
+    public void onRecyclerViewItemClick(PlaceRested dataItem, View view, int position) {
+        Intent intent = new Intent(mActivity,FoodAndMotelDetail.class);
+        intent.putExtra(FoodAndMotelDetail.EXTRA_DETAIL_FRAGMENT,dataItem);
+        mActivity.startActivity(intent);
     }
 }

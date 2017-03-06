@@ -34,7 +34,7 @@ public class SharePreferencesUtils extends BasePreferences {
       return getSharePreferences().getBoolean(KEY_FIRST_RUN_APP,true);
     }
     public void setLastKnowLocation(String location){
-        getEditor().putString(KEY_LAST_KNOW_LOCATION,location);
+        getEditor().putString(KEY_LAST_KNOW_LOCATION,location).commit();
     }
     public String getLastKnowLocation(){
         return getSharePreferences().getString(KEY_LAST_KNOW_LOCATION,"");
