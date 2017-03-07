@@ -13,7 +13,6 @@ import com.huutho.phuotphuotphuot.base.adapter.BaseRVAdapter;
 import com.huutho.phuotphuotphuot.base.adapter.BaseViewHolder;
 import com.huutho.phuotphuotphuot.base.adapter.IBaseAdapterCallback;
 import com.huutho.phuotphuotphuot.ui.entity.City;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TableCity;
 
@@ -29,17 +28,19 @@ import butterknife.ButterKnife;
 public class ChooseCityAdapter extends BaseRVAdapter<ChooseCityAdapter.ViewHolder, City> {
 
     private ArrayList<City> cities;
-    private int mSizeDatas ;
+    private City city;
+    private int mSizeDatas;
+
     public interface ICitySelected extends IBaseAdapterCallback {
 
     }
 
-    public ChooseCityAdapter(Context context, int idZone,  ICitySelected callback) {
+    public ChooseCityAdapter(Context context, int idZone, ICitySelected callback) {
         super(context, callback);
         cities = TableCity.getInstance().getListData(DbContracts.TableCity.CITY_ID_ZONE,
-                new String[]{String.valueOf(idZone)},null);
+                new String[]{String.valueOf(idZone)}, null);
 
-        mSizeDatas = cities.size();;
+        mSizeDatas = cities.size();
         setDatas(cities);
     }
 
@@ -51,18 +52,19 @@ public class ChooseCityAdapter extends BaseRVAdapter<ChooseCityAdapter.ViewHolde
 
     @Override
     public void onAdapterReady(ChooseCityAdapter.ViewHolder holder, final int position) {
-        final City city = getDataItem(position);
+        city = getDataItem(position);
         holder.mCity.setText(city.getmNameCity());
         holder.mCheckbox.setChecked(city.isSelected);
-        holder.viewParent.setOnClickListener(new View.OnClickListener() {
+        holder.mCheckbox.setClickable(false);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAdapterCallback.onRecyclerViewItemClick(getDataItem(position), v, position);
                 for (int i = 0; i < mSizeDatas; i++) {
-                    ((City) mDatas.get(i)).isSelected = false;
+                    getDataItem(i).isSelected = false;
                 }
-                ((City) mDatas.get(position)).isSelected = true;
+                getDataItem(position).isSelected = true;
                 notifyDataSetChanged();
-                mAdapterCallback.onRecyclerViewItemClick(city,v,position);
             }
         });
     }

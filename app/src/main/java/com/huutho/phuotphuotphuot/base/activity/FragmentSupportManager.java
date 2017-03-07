@@ -21,6 +21,8 @@ public class FragmentSupportManager {
     public void replaceFragment(int layoutId, Fragment fragment) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(fragment.getTag());
+        ft.setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit, R.anim.fragment_enter, R.anim.fragment_exit);
         ft.replace(layoutId, fragment);
         ft.commit();
     }
@@ -40,15 +42,16 @@ public class FragmentSupportManager {
     public void addFragment(int layoutId, Fragment fragment) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(fragment,fragment.getTag());
+        ft.addToBackStack(fragment.getTag());
+        ft.add(layoutId, fragment);
         ft.commit();
     }
 
     public void addFragmentAnim(int layoutId, Fragment fragment) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.fragment_enter,R.anim.fragment_exit,R.anim.fragment_enter,R.anim.fragment_exit);
-        ft.add(layoutId,fragment);
+        ft.setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit, R.anim.fragment_enter, R.anim.fragment_exit);
+        ft.add(layoutId, fragment);
         ft.addToBackStack(fragment.getTag());
         ft.commit();
     }
@@ -71,5 +74,13 @@ public class FragmentSupportManager {
     public Fragment findFragmentById(int layoutId) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
         return fm.findFragmentById(layoutId);
+    }
+
+    public void popFragment() {
+        FragmentManager fm = mActivity.getSupportFragmentManager();
+        int count = fm.getBackStackEntryCount();
+        if (count >= 1) {
+            fm.popBackStackImmediate();
+        }
     }
 }

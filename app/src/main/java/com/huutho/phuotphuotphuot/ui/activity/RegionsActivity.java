@@ -49,6 +49,9 @@ import butterknife.ButterKnife;
 public class RegionsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         PlaceRVAdapter.IPlaceAdapterListener, View.OnClickListener {
     protected static final String KEY_BUNDLE_REGIONS = "key.bundle.regions";
+    private static final String LIKE = "1";
+    private static final String UNLIKE = "0";
+
     private static final int KEY_RESULT_SPEECH = 1010;
     protected static final int SNUMBER_COLUMN = 2;
     protected static final int REGIONS_DEFAULT = 0;
@@ -72,11 +75,10 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     private ActionBarDrawerToggle mToggle;
     private PlaceRVAdapter mAdapter;
     private ArrayList<Place> mListPlace;
-
     private AlertDialog mSpeechDialog;
-    private AlertDialog.Builder mChooseCityDialog;
-
     private int mCurrentRegions;
+    private City mCurrentCity;
+    private City planCity;
 
     private Runnable runActivityReady = new Runnable() {
         @Override
@@ -136,7 +138,6 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
         switch (v.getId()) {
             case R.id.act_regions_choose_city:
                 dialogChooseCity();
-                mChooseCityDialog.show();
                 break;
         }
     }
@@ -162,6 +163,7 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                 break;
 
             case R.id.action_favorite:
+                notifyDataFavorite();
                 break;
 
             case R.id.action_north:
@@ -180,12 +182,16 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                 break;
 
             case R.id.action_flash_light:
-                break;
-
-            case R.id.action_compass:
+                getHandler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        FlashLightActivity.lauch(RegionsActivity.this);
+                    }
+                });
                 break;
 
             case R.id.action_experiences:
+                ExperienceTravelActivity.newInstance(this);
                 break;
 
             case R.id.action_sos:
@@ -244,8 +250,9 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     }
 
     private void dialogChooseCity() {
+
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_city, null);
-        mChooseCityDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder mChooseCityDialog = new AlertDialog.Builder(this);
         mChooseCityDialog.setTitle(this.getResources().getString(R.string.title_dialog_choose_city));
         mChooseCityDialog.setView(view);
 
@@ -254,16 +261,15 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
         viewCities.setAdapter(new ChooseCityAdapter(this, mCurrentRegions, new ChooseCityAdapter.ICitySelected() {
             @Override
             public void onRecyclerViewItemClick(BaseEntity dataItem, View view, int position) {
-                //TODO
-                notifyDataCity(((City) dataItem));
+                planCity = (City) dataItem;
             }
         }));
 
         mChooseCityDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO
-
+                mCurrentCity = planCity;
+                notifyDataCity(mCurrentCity);
             }
         });
 
@@ -273,6 +279,8 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                 dialog.dismiss();
             }
         });
+
+        mChooseCityDialog.show();
     }
 
     /*----------------------------------------------*/
@@ -307,6 +315,11 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                         DbContracts.TablePlace.PLACE_NAME_PLACE + " LIKE '%" + query + "%' ",
                         null,
                         null));
+    }
+
+    private void notifyDataFavorite() {
+        mAdapter.setDatas(TablePlace.getInstance()
+                .getListData(DbContracts.TablePlace.PLACE_FAVORITE, new String[]{LIKE}, null));
     }
 
     private void removeScrollbarNavigationView(NavigationView navView) {
@@ -357,7 +370,11 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
         @Override
         public void onTextChanged(final CharSequence s, int start, int before, int count) {
             if (start == 0) {
-                notifyDataRegions(mCurrentRegions);
+                if (mCurrentCity != null) {
+                    notifyDataCity(mCurrentCity);
+                } else {
+                    notifyDataRegions(mCurrentRegions);
+                }
                 return;
             }
             getHandler().postDelayed(new Runnable() {

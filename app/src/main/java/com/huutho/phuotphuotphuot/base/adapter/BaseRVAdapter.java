@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
+import com.huutho.phuotphuotphuot.utils.LogUtils;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public abstract class BaseRVAdapter<VH extends BaseViewHolder, E extends BaseEnt
     public void setDatas(ArrayList<E> datas) {
         if (mDatas != null) {
             mDatas.clear();
+            LogUtils.e("huutho",datas.toString());
             mDatas.addAll(datas);
             notifyDataSetChanged();
         }

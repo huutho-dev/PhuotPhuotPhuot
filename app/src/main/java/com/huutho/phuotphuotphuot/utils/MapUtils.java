@@ -1,30 +1,13 @@
 package com.huutho.phuotphuotphuot.utils;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.huutho.phuotphuotphuot.R;
-import com.huutho.phuotphuotphuot.location.RoutesLocation;
-
-import java.util.ArrayList;
-
-import butterknife.internal.Utils;
 
 /**
  * Created by HuuTho on 2/28/2017.
@@ -72,9 +55,7 @@ public class MapUtils {
     }
 
 
-    public static void addMarker(Context context,GoogleMap googleMap, String latLng, String title, int markerRes){
-        LogUtils.e("huutho",latLng);
-        LogUtils.e("huutho",stringLatLngToLatLng(latLng)+"");
+    public static void addMarker(GoogleMap googleMap, String latLng, String title){
         MarkerOptions options = new MarkerOptions();
         options.position(stringLatLngToLatLng(latLng));
         options.title(title);

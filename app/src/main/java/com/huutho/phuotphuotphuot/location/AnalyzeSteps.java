@@ -30,11 +30,9 @@ public class AnalyzeSteps {
             double lng = stepsBeen.get(i).startLocation.lng;
             latLngs.add(new LatLng(lat,lng));
 
-            if (i == sizeSteps-1){
-                double latEnd = stepsBeen.get(i).endLocation.lat;
-                double lngEnd = stepsBeen.get(i).endLocation.lng;
-                latLngs.add(new LatLng(latEnd,lngEnd));
-            }
+            double latEnd = stepsBeen.get(i).endLocation.lat;
+            double lngEnd = stepsBeen.get(i).endLocation.lng;
+            latLngs.add(new LatLng(latEnd,lngEnd));
         }
         return latLngs;
     }

@@ -21,6 +21,8 @@ public interface ISupportFragment {
 
     void addFragmentAddNullBackStack(int layoutId, Fragment fragment);
 
+    void popBackStack();
+
     Fragment findFragmentByTag(String tag);
 
     Fragment findFragmentById(int layoutId);

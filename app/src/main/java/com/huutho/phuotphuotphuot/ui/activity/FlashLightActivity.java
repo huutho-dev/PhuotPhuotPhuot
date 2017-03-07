@@ -1,17 +1,16 @@
-package com.huutho.phuotphuotphuot.ui.fragment;
+package com.huutho.phuotphuotphuot.ui.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SwitchCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import com.huutho.phuotphuotphuot.R;
-import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
-import com.huutho.phuotphuotphuot.ui.activity.RegionsActivity;
+import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,11 +18,11 @@ import butterknife.ButterKnife;
 /**
  * Created by HuuTho on 1/28/2017.
  */
-public class FlashLightFragment extends BaseFragment {
-    private final String TAG = FlashLightFragment.class.getSimpleName();
+public class FlashLightActivity extends BaseActivity {
+    private final String TAG = FlashLightActivity.class.getSimpleName();
 
     @BindView(R.id.fragment_flashlight_switch)
-    SwitchCompat mSwitch;
+    ImageView mSwitch;
 
     private AlertDialog alertDialog;
     private Camera mCamera;
@@ -32,57 +31,64 @@ public class FlashLightFragment extends BaseFragment {
     private boolean mDeviceHasFlash;
     private boolean isFlashOn;
 
+    public static void lauch(AppCompatActivity activity){
+        Intent intent = new Intent(activity, FlashLightActivity.class);
+        activity.startActivity(intent);
+    }
+
     @Override
     public int setContentLayout() {
         return R.layout.fragment_flashlight;
     }
 
     @Override
-    public void bindViewToFragment(View view, Bundle savedInstanceState) {
-        ButterKnife.bind(this, getView());
+    public void bindViewToLayout() {
+        ButterKnife.bind(this);
     }
 
     @Override
-    public void fragmentReady() {
+    public void activityReady() {
         getCameraParams();
 
-        mDeviceHasFlash = mContext
+        mDeviceHasFlash = this
                 .getApplicationContext()
                 .getPackageManager()
                 .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-        if (!mDeviceHasFlash) {
+        if (!mDeviceHasFlash){
             createDiaglog();
-        } else {
-            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }else {
+            mSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked){
+                public void onClick(View v) {
+                    if (!isFlashOn) {
                         turnOnFlash();
-                    }else {
+                    } else {
                         turnOffFlash();
                     }
                 }
             });
         }
+
     }
 
+
     private void createDiaglog() {
-        alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Error");
         alertDialog.setMessage("Rất tiếc thiết bị của  bạn không hỗ trợ đèn ");
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();
-                ((RegionsActivity) mActivity).onBackPressed();
+                onBackPressed();
             }
         });
         alertDialog.show();
     }
 
     private void getCameraParams() {
-        if (mCamera != null) {
+        if (mCamera == null) {
             try {
                 mCamera = android.hardware.Camera.open();
                 mParams = mCamera.getParameters();
@@ -124,13 +130,25 @@ public class FlashLightFragment extends BaseFragment {
 
     private void changeImageSwitch(boolean isFlashOn) {
         if (isFlashOn) {
-            mSwitch.setChecked(true);
+            mSwitch.setImageResource(R.drawable.icon_flash_turn_on);
+            mSwitch.setBackgroundColor(getResources().getColor(R.color.flashlighton ));
             return;
         }
-        mSwitch.setChecked(false);
+        mSwitch.setImageResource(R.drawable.icon_flash_turn_off);
+        mSwitch.setBackgroundColor(getResources().getColor(R.color.transparent));
     }
 
     private void playSound() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isFlashOn){
+            turnOffFlash();
+            mCamera.release();
+            finish();
+        }
     }
 }

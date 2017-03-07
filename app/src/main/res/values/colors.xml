@@ -25,4 +25,6 @@
     <color name="gray_dark">#383838</color>
     <color name="gray_light">#cccccc</color>
     <color name="red">#ff1919</color>
+    <color name="transparent">#00000000</color>
+    <color name="flashlighton">#8bfdb04d</color>
 </resources>

@@ -1,64 +1,63 @@
 package com.huutho.phuotphuotphuot.ui.entity;
 
-import android.database.Cursor;
 import android.os.Parcel;
 
 import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
-import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 
 /**
  * Created by nguyenhuutho on 2/3/17.
  */
 
 public class ExperienceTravel extends BaseEntity {
-    private String mIdExp ;
-    private String mNameExp ;
-    private String mDescExp ;
-    private String mImageExp ;
+    public String mIdExp;
+    public String mNameExp;
+    public String mDescExp;
+    public String mImageExp;
 
-    public ExperienceTravel(String mIdExp, String mNameExp, String mDescExp, String mImageExp) {
-        this.mIdExp = mIdExp;
-        this.mNameExp = mNameExp;
-        this.mDescExp = mDescExp;
-        this.mImageExp = mImageExp;
-    }
-    public ExperienceTravel(Cursor cursor){
-        mIdExp = cursor.getString(cursor.getColumnIndex(DbContracts.TableExperience.EXPERIENCE_ID));
-        mNameExp = cursor.getString(cursor.getColumnIndex(DbContracts.TableExperience.EXPERIENCE_NAME));
-        mDescExp = cursor.getString(cursor.getColumnIndex(DbContracts.TableExperience.EXPERIENCE_DESC));
-        mImageExp = cursor.getString(cursor.getColumnIndex(DbContracts.TableExperience.EXPERIENCE_URL_IMAGE));
+    public ExperienceTravel() {
+
     }
 
-    public String getmIdExp() {
-        return mIdExp;
+    public ExperienceTravel(Builder builder) {
+        mIdExp = builder.mIdExp;
+        mNameExp = builder.mNameExp;
+        mDescExp = builder.mDescExp;
+        mImageExp = builder.mImageExp;
     }
 
-    public void setmIdExp(String mIdExp) {
-        this.mIdExp = mIdExp;
-    }
+    public static class Builder {
+        public String mIdExp;
+        public String mNameExp;
+        public String mDescExp;
+        public String mImageExp;
 
-    public String getmNameExp() {
-        return mNameExp;
-    }
+        public Builder() {
 
-    public void setmNameExp(String mNameExp) {
-        this.mNameExp = mNameExp;
-    }
+        }
 
-    public String getmDescExp() {
-        return mDescExp;
-    }
+        public Builder setId(String id) {
+            this.mIdExp = id;
+            return this;
+        }
 
-    public void setmDescExp(String mDescExp) {
-        this.mDescExp = mDescExp;
-    }
+        public Builder setName(String name) {
+            this.mNameExp = name;
+            return this;
+        }
 
-    public String getmImageExp() {
-        return mImageExp;
-    }
+        public Builder setDesc(String desc) {
+            this.mDescExp = desc;
+            return this;
+        }
 
-    public void setmImageExp(String mImageExp) {
-        this.mImageExp = mImageExp;
+        public Builder setImage(String image) {
+            this.mImageExp = image;
+            return this;
+        }
+
+        public ExperienceTravel build() {
+            return new ExperienceTravel(this);
+        }
     }
 
     @Override

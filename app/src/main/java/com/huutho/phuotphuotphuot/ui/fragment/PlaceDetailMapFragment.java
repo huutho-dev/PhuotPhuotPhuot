@@ -29,9 +29,11 @@ import com.huutho.phuotphuotphuot.base.fragment.MapFragment;
 import com.huutho.phuotphuotphuot.location.AnalyzeSteps;
 import com.huutho.phuotphuotphuot.location.RoutesLocation;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
+import com.huutho.phuotphuotphuot.ui.entity.PlaceRested;
 import com.huutho.phuotphuotphuot.utils.MapUtils;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
+import com.huutho.phuotphuotphuot.utils.database.DbContracts;
+import com.huutho.phuotphuotphuot.utils.database.TableRested;
 
 import java.util.ArrayList;
 
@@ -48,7 +50,8 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
     private static final String EXTRA_MAP_FRAGMENT = "extra.map.fragment";
 
     private static final int REQUEST_PERMISSION = 111;
-    private Place mPlace ;
+    private Place mPlace;
+    private ArrayList<PlaceRested> mResteds;
     private MapView mGoogleMap;
     private GoogleMap mMap;
 
@@ -74,16 +77,11 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
 
     @Override
     public void bindViewToFragment(View view, Bundle savedInstanceState) {
+        mResteds = new ArrayList<>();
         mPlace = getBundleData(savedInstanceState);
-        mGoogleMap = (MapView) getView().findViewById(R.id.map);
-        getHandle().post(new Runnable() {
-            @Override
-            public void run() {
-                mGoogleMap.onCreate(null);
-                mGoogleMap.onResume();
-                mGoogleMap.getMapAsync(PlaceDetailMapFragment.this);
-            }
-        });
+        mGoogleMap = (MapView) view.findViewById(R.id.map);
+        getHandle().post(runLoadMap);
+        getHandle().post(runLoadMotelLocation);
 
     }
 
@@ -108,41 +106,42 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
                     || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 // try again, explain why we need this permission
                 setDialogShowRequestPermission();
+                googleMap.setMyLocationEnabled(true);
             } else {
                 // direct or tick remember
+                googleMap.setMyLocationEnabled(true);
                 ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION);
             }
         }
 
         String destination = MapUtils.convertStandStrLocation(mPlace.mLatLng);
-            String origin = SharePreferencesUtils.getInstances().getLastKnowLocation();
-        LogUtils.e("xxhuutho",origin + " - " + destination);
+        String origin = SharePreferencesUtils.getInstances().getLastKnowLocation();
 
         Retrofit retrofit = new ApiRequestHelper().getMapApiRequest();
         ApiRequest request = retrofit.create(ApiRequest.class);
-        Call<RoutesLocation> call = request.getDirection(origin, destination,ApiRequest.MODE_DRIVING,ApiRequest.LANGUAGE);
+        Call<RoutesLocation> call = request.getDirection(origin, destination, ApiRequest.MODE_DRIVING, ApiRequest.LANGUAGE);
         call.enqueue(this);
 
+        getHandle().post(runAddMarkerMotel);
+        CameraPosition cameraPosition = new CameraPosition(MapUtils.stringLatLngToLatLng(origin), 10, 10, 10);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        mMap.animateCamera(cameraUpdate);
     }
 
     @Override
     public void onResponse(Response<RoutesLocation> response, Retrofit retrofit) {
 
-        if (response.body() !=null){
+        if (response.body() != null) {
             RoutesLocation routesLocation = response.body();
             AnalyzeSteps analyzeSteps = new AnalyzeSteps(routesLocation.routes.get(0).legs.get(0).steps);
             ArrayList<LatLng> latLngs = analyzeSteps.getLatLngs();
             PolylineOptions polylineOptions = new PolylineOptions();
             polylineOptions.addAll(latLngs);
             polylineOptions.color(Color.BLUE);
-            polylineOptions.width(10);
+            polylineOptions.width(5);
             polylineOptions.clickable(true);
             polylineOptions.geodesic(true);
-
-            CameraPosition cameraPosition = new CameraPosition(latLngs.get(0),12,12,17);
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-            mMap.animateCamera(cameraUpdate);
             mMap.addPolyline(polylineOptions);
         }
 
@@ -173,7 +172,6 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
 
 
     private void settingUiMap(GoogleMap googleMap) {
-
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setAllGesturesEnabled(true);
@@ -243,5 +241,30 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
                 .show();
     }
 
+    private Runnable runLoadMotelLocation = new Runnable() {
+        @Override
+        public void run() {
+            String restedSelection = DbContracts.TableRested.RESTED_ID_PLACE;
+            String[] args = new String[]{mPlace.mIdPlace};
+            mResteds = TableRested.getInstance().getListData(restedSelection, args, null);
+        }
+    };
 
+    private Runnable runLoadMap = new Runnable() {
+        @Override
+        public void run() {
+            mGoogleMap.onCreate(null);
+            mGoogleMap.onResume();
+            mGoogleMap.getMapAsync(PlaceDetailMapFragment.this);
+        }
+    };
+
+    private Runnable runAddMarkerMotel = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 0; i < mResteds.size(); i++) {
+                MapUtils.addMarker(mMap, mResteds.get(i).mLatLng, mResteds.get(i).mNamePlaceRested);
+            }
+        }
+    };
 }

@@ -56,6 +56,11 @@ public class SupportActivity extends AppCompatActivity implements ISupportFragme
     }
 
     @Override
+    public void popBackStack() {
+        mSupportFragment.popFragment();
+    }
+
+    @Override
     public Fragment findFragmentByTag(String tag) {
         return mSupportFragment.findFragmentByTag(tag);
     }
