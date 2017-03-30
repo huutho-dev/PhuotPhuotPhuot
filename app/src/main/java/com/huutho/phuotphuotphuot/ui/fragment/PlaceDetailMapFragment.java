@@ -106,10 +106,8 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
                     || ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 // try again, explain why we need this permission
                 setDialogShowRequestPermission();
-                googleMap.setMyLocationEnabled(true);
             } else {
                 // direct or tick remember
-                googleMap.setMyLocationEnabled(true);
                 ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION);
             }
@@ -124,9 +122,12 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
         call.enqueue(this);
 
         getHandle().post(runAddMarkerMotel);
-        CameraPosition cameraPosition = new CameraPosition(MapUtils.stringLatLngToLatLng(origin), 10, 10, 10);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        mMap.animateCamera(cameraUpdate);
+        if (!origin.equals("")){
+            CameraPosition cameraPosition = new CameraPosition(MapUtils.stringLatLngToLatLng(origin), 10, 10, 10);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+            mMap.animateCamera(cameraUpdate);
+        }
+
     }
 
     @Override

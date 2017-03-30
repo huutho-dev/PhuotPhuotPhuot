@@ -66,7 +66,11 @@ public class TablePlace extends DbHelper implements DbCommonOperator<Place> {
 
     @Override
     public int update(Place place) {
-        return 0;
+        openDb();
+       int update =  mSqlDatabase.update(DbContracts.TablePlace.TABLE_PLACE,
+               convertObjToContentValues(place),
+               DbContracts.TablePlace.PLACE_ID_PLACE+"=?",new String[]{place.mIdPlace});
+        return update;
     }
 
     @Override
@@ -76,6 +80,16 @@ public class TablePlace extends DbHelper implements DbCommonOperator<Place> {
 
     @Override
     public ContentValues convertObjToContentValues(Place place) {
-        return null;
+        ContentValues values = new ContentValues();
+        values.put(DbContracts.TablePlace.PLACE_ID_PLACE,place.mIdPlace);
+        values.put(DbContracts.TablePlace.PLACE_NAME_CITY,place.mCity);
+        values.put(DbContracts.TablePlace.PLACE_FAVORITE,place.mFavorite);
+        values.put(DbContracts.TablePlace.PLACE_ID_ZONE,place.mIdZone);
+        values.put(DbContracts.TablePlace.PLACE_INTRO,place.mIntro);
+        values.put(DbContracts.TablePlace.PLACE_LATLNG,place.mLatLng);
+        values.put(DbContracts.TablePlace.PLACE_NAME_PLACE,place.mNamePlace);
+        values.put(DbContracts.TablePlace.PLACE_URL_IMAGE,place.mUrlImage);
+        values.put(DbContracts.TablePlace.PLACE_ID_CITY,place.mIdCity);
+        return values;
     }
 }

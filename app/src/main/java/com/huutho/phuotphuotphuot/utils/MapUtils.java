@@ -40,6 +40,9 @@ public class MapUtils {
     }
 
     public static LatLng stringLatLngToLatLng(String latlng) {
+        if (latlng.length()!=0){
+
+        }
         latlng = convertStandStrLocation(latlng);
         String lat = latlng.substring(0, latlng.indexOf(","));
         String lng = latlng.substring(latlng.indexOf(",") + 1);

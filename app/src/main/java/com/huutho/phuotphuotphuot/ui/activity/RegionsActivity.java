@@ -49,8 +49,6 @@ import butterknife.ButterKnife;
 public class RegionsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
         PlaceRVAdapter.IPlaceAdapterListener, View.OnClickListener {
     protected static final String KEY_BUNDLE_REGIONS = "key.bundle.regions";
-    private static final String LIKE = "1";
-    private static final String UNLIKE = "0";
 
     private static final int KEY_RESULT_SPEECH = 1010;
     protected static final int SNUMBER_COLUMN = 2;
@@ -197,9 +195,6 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
             case R.id.action_sos:
                 break;
 
-            case R.id.action_utilities:
-                break;
-
             case R.id.action_update:
                 goToUpdateFragment();
                 break;
@@ -319,7 +314,7 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
 
     private void notifyDataFavorite() {
         mAdapter.setDatas(TablePlace.getInstance()
-                .getListData(DbContracts.TablePlace.PLACE_FAVORITE, new String[]{LIKE}, null));
+                .getListData(DbContracts.TablePlace.PLACE_FAVORITE, new String[]{PlaceRVAdapter.FAV}, null));
     }
 
     private void removeScrollbarNavigationView(NavigationView navView) {

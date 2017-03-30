@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
+import com.huutho.phuotphuotphuot.utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +62,8 @@ public class FlashLightActivity extends BaseActivity {
             mSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    LogUtils.e("huutho","hihi");
                     if (!isFlashOn) {
                         turnOnFlash();
                     } else {

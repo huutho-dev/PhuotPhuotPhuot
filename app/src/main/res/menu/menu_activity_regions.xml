@@ -43,10 +43,6 @@
                 android:id="@+id/action_sos"
                 android:icon="@drawable/menu_sos_warning"
                 android:title="@string/menu_sos" />
-            <item
-                android:id="@+id/action_utilities"
-                android:icon="@drawable/menu_utilities"
-                android:title="@string/menu_utilities" />
         </group>
         </menu>
     </item>

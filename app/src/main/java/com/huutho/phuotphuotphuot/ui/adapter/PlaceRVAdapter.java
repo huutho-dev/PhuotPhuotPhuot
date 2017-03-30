@@ -14,6 +14,7 @@ import com.huutho.phuotphuotphuot.base.adapter.BaseViewHolder;
 import com.huutho.phuotphuotphuot.base.adapter.IBaseAdapterCallback;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
+import com.huutho.phuotphuotphuot.utils.database.TablePlace;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +23,10 @@ import butterknife.ButterKnife;
  * Created by HuuTho on 1/24/2017.
  */
 public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Place> {
+
+    public static final String FAV = "true";
+    public static final String UN_FAV = "false";
+
     public interface IPlaceAdapterListener extends IBaseAdapterCallback<Place> {
 
     }
@@ -36,8 +41,16 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
     }
 
     @Override
-    public void onAdapterReady(ViewHolder holder, final int position) {
+    public void onAdapterReady(final ViewHolder holder, final int position) {
         final Place place = (Place) mDatas.get(position);
+
+        if (place.mFavorite.equals(FAV)){
+            holder.mFav.setImageResource(R.drawable.icon_fav);
+        }else {
+            holder.mFav.setImageResource(R.drawable.icon_un_fav);
+        }
+
+
 
         String title = place.mNamePlace;
         String urlImage = place.mUrlImage;
@@ -53,6 +66,19 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
                 mAdapterCallback.onRecyclerViewItemClick(place,v,position);
             }
         });
+
+        holder.mFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (place.mFavorite.equals(FAV)){
+                   place.mFavorite = UN_FAV;
+                }else {
+                   place.mFavorite = FAV;
+                }
+                TablePlace.getInstance().update(place);
+               notifyItemChanged(position);
+            }
+        });
     }
 
     public static class ViewHolder extends BaseViewHolder {
@@ -60,6 +86,8 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
         ImageView mImage;
         @BindView(R.id.layout_item_place_tv_title_desc)
         TextView mTitle;
+        @BindView(R.id.item_favorite)
+        ImageView mFav ;
         @BindView(R.id.layout_item_place_tv_city_of_place)
         TextView mCity;
         @BindView(R.id.loading)
