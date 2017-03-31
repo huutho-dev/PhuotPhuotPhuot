@@ -22,18 +22,6 @@ public class Place extends BaseEntity {
     public String mUrlImage;
     public String mCity ;
 
-    public Place(String mIdPlace, String mIdCity, String mIdZone, String mNamePlace, String mLatLng,
-                 String mFavorite, String mIntro, String mUrlImage, String mCity) {
-        this.mIdPlace = mIdPlace;
-        this.mIdCity = mIdCity;
-        this.mIdZone = mIdZone;
-        this.mNamePlace = mNamePlace;
-        this.mLatLng = mLatLng;
-        this.mFavorite = mFavorite;
-        this.mIntro = mIntro;
-        this.mUrlImage = mUrlImage ;
-        this.mCity = mCity;
-    }
 
     public Place(Cursor cursor){
         mIdPlace = cursor.getString(cursor.getColumnIndex(DbContracts.TablePlace.PLACE_ID_PLACE));

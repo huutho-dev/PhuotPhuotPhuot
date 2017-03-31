@@ -5,9 +5,11 @@ import android.location.Location;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.huutho.phuotphuotphuot.R;
 
 /**
  * Created by HuuTho on 2/28/2017.
@@ -62,6 +64,15 @@ public class MapUtils {
         MarkerOptions options = new MarkerOptions();
         options.position(stringLatLngToLatLng(latLng));
         options.title(title);
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker));
+        options.anchor(0.5f , 0.5f);
+        googleMap.addMarker(options);
+    }
+    public static void addHotel(GoogleMap googleMap, String latLng, String title){
+        MarkerOptions options = new MarkerOptions();
+        options.position(stringLatLngToLatLng(latLng));
+        options.title(title);
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_hotel));
         options.anchor(0.5f , 0.5f);
         googleMap.addMarker(options);
     }

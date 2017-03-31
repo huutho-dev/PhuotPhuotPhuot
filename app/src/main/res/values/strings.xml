@@ -27,6 +27,10 @@
     <string name="menu_information">Infomation</string>
     <string name="menu_update">Update</string>
 
+    <string name="menu_list_or_grid">List Or Grid</string>
+    <string name="menu_setting">Setting</string>
+
+
     <!--bottombar menu-->
     <string name="menu_place_intro">Intro</string>
     <string name="menu_place_map">Map</string>

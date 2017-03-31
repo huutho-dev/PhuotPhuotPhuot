@@ -45,6 +45,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:autoLink="all"
                     android:id="@+id/txt_motel_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,6 +59,7 @@
 
 
             <TextView
+                android:autoLink="all"
                 android:id="@+id/txt_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -68,4 +68,14 @@ public final class DbContracts {
         public static final String ZONE_NAME = "ten_vung_mien";
         public static final String ZONE_NAME_CLEAN = "ten_vung_mien_clean";
     }
+
+    public static class TableSOS {
+        public static final String TABLE_SOS = "CuuHo" ;
+        public static final String SOS_ID ="id_cuu_ho";
+        public static final String SOS_ID_CITY ="id_thanh_pho";
+        public static final String SOS_NAME_CITY ="ten_thanh_pho";
+        public static final String SOS_POLICE_PHONE ="sdt_cong_an";
+        public static final String SOS_HOSPITAL_PHONE ="sdt_benh_vien";
+        public static final String SOS_RESCUE_PHONE ="sdt_tram_cuu_ho";
+    }
 }

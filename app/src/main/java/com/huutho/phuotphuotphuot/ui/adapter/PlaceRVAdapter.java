@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,10 @@ import butterknife.ButterKnife;
  */
 public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Place> {
 
+    public static final int TYPE_LIST = 1;
+    public static final int TYPE_GRID = 2;
+
+    private int currentType = TYPE_GRID;
     public static final String FAV = "true";
     public static final String UN_FAV = "false";
 
@@ -37,6 +42,9 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
 
     @Override
     public ViewHolder onCreateViewAdapter(ViewGroup viewParent, int viewType) {
+        if (currentType == TYPE_LIST) {
+            return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.layout_item_place_2, viewParent, false));
+        }
         return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.layout_item_place, viewParent, false));
     }
 
@@ -44,12 +52,13 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
     public void onAdapterReady(final ViewHolder holder, final int position) {
         final Place place = (Place) mDatas.get(position);
 
-        if (place.mFavorite.equals(FAV)){
+        if (place.mFavorite.equals(FAV)) {
             holder.mFav.setImageResource(R.drawable.icon_fav);
-        }else {
+            holder.mFav.setColorFilter(ContextCompat.getColor(mContext, R.color.colorTintFavorite));
+        } else {
             holder.mFav.setImageResource(R.drawable.icon_un_fav);
+            holder.mFav.setColorFilter(ContextCompat.getColor(mContext, R.color.colorTintUnFavorite));
         }
-
 
 
         String title = place.mNamePlace;
@@ -58,27 +67,37 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
 
         holder.mTitle.setText(title);
         holder.mCity.setText(city);
-        ImageUtils.loadImage(mContext,urlImage,holder.mImage, holder.progressBar);
+        ImageUtils.loadImage(mContext, urlImage, holder.mImage, holder.progressBar);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapterCallback.onRecyclerViewItemClick(place,v,position);
+                mAdapterCallback.onRecyclerViewItemClick(place, v, position);
             }
         });
 
         holder.mFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (place.mFavorite.equals(FAV)){
-                   place.mFavorite = UN_FAV;
-                }else {
-                   place.mFavorite = FAV;
+                if (place.mFavorite.equals(FAV)) {
+                    place.mFavorite = UN_FAV;
+                } else {
+                    place.mFavorite = FAV;
                 }
                 TablePlace.getInstance().update(place);
-               notifyItemChanged(position);
+                notifyItemChanged(position);
             }
         });
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return currentType;
+    }
+
+    public void setType(int type) {
+        this.currentType = type;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends BaseViewHolder {
@@ -87,7 +106,7 @@ public class PlaceRVAdapter extends BaseRVAdapter<PlaceRVAdapter.ViewHolder, Pla
         @BindView(R.id.layout_item_place_tv_title_desc)
         TextView mTitle;
         @BindView(R.id.item_favorite)
-        ImageView mFav ;
+        ImageView mFav;
         @BindView(R.id.layout_item_place_tv_city_of_place)
         TextView mCity;
         @BindView(R.id.loading)

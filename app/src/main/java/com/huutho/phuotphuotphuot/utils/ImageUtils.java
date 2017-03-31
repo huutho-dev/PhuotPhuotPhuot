@@ -1,7 +1,6 @@
 package com.huutho.phuotphuotphuot.utils;
 
 import android.content.Context;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +17,7 @@ import com.squareup.picasso.Picasso;
  * Created by HuuTho on 1/17/2017.
  */
 public class ImageUtils {
-    public static void loadImageResource(AppCompatActivity activity, int res, ImageView imageView){
+    public static void loadImageResource(AppCompatActivity activity, int res, ImageView imageView) {
         Glide.with(activity)
                 .load(res)
                 .skipMemoryCache(false)
@@ -57,7 +56,7 @@ public class ImageUtils {
     }
 
 
-    public static void loadImagePicasso(Context context, String url, ImageView imageView){
+    public static void loadImagePicasso(Context context, String url, ImageView imageView) {
         Picasso.with(context)
                 .load(url)
                 .error(R.drawable.background_loading)

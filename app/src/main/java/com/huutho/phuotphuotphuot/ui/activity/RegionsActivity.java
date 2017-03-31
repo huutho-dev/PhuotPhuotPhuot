@@ -19,6 +19,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -118,10 +120,9 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
         mRVPlace.hasFixedSize();
 
         mRVPlace.setAdapter(mAdapter);
-
         mChooseLocation.setOnClickListener(this);
-
         mEdtSearch.addTextChangedListener(txtWatcher);
+        setSupportActionBar(mToobar);
     }
 
 
@@ -193,6 +194,7 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                 break;
 
             case R.id.action_sos:
+                startActivity(new Intent(RegionsActivity.this,SOSActivity.class));
                 break;
 
             case R.id.action_update:
@@ -215,9 +217,42 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
             mSpeechDialog.dismiss();
             ArrayList<String> myText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             mEdtSearch.setText(myText.get(0));
+            mEdtSearch.requestApplyInsets();
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_regions_activity_actionbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                mToggle.onOptionsItemSelected(item);
+                return true;
+
+            case R.id.action_grid_list:
+                item.setChecked(!item.isChecked());
+                if (!item.isChecked()) {
+                    mRVPlace.setLayoutManager(new GridLayoutManager(RegionsActivity.this, 2));
+                    mAdapter.setType(PlaceRVAdapter.TYPE_GRID);
+                    item.setIcon(R.drawable.ic_view_grid);
+                } else {
+                    mRVPlace.setLayoutManager(new LinearLayoutManager(RegionsActivity.this));
+                    mAdapter.setType(PlaceRVAdapter.TYPE_LIST); item.setIcon(R.drawable.ic_view_list);
+                }
+                return true;
+            case R.id.action_setting:
+                return true;
+
+        }
+        return true;
+    }
 
     /*----------------------------------------------*/
 
