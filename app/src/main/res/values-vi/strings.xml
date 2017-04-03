@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PhuotPhuotPhuot</string>
+    <string name="act_intro_btn_lets_go">Khám phá</string>
+    <string name="act_intro_btn_next">Tiếp</string>
+    <string name="act_intro_btn_previos">Lùi</string>
+    <string name="act_regions_search_hint">Search</string>
+    <string name="close">Đóng</string>
+    <string name="menu_central">Miền Trung</string>
+    <string name="menu_compass">La bàn</string>
+    <string name="menu_experience">Kinh nghiệm</string>
+    <string name="menu_favorite">Yêu thích</string>
+    <string name="menu_flashlight">Đèn flash</string>
+    <string name="menu_information">Thông tin</string>
+    <string name="menu_list_or_grid">Danh sách hoặc lưới</string>
+    <string name="menu_north">Miền Bắc</string>
+    <string name="menu_place_food">Đồ ăn</string>
+    <string name="menu_place_intro">Giới thiệu</string>
+    <string name="menu_place_map">Bản đồ</string>
+    <string name="menu_place_motel">Nhà nghỉ</string>
+    <string name="menu_search">Tìm kiếm bằng giọng nói</string>
+    <string name="menu_settings_dots">Cài đặt</string>
+    <string name="menu_sos">Cứu hộ</string>
+    <string name="menu_south">Miền Nam</string>
+    <string name="menu_update">Cập nhật</string>
+    <string name="menu_utilities">Tiện ích</string>
+    <string name="menu_vietnam">Việt Nam</string>
+    <string name="msg_flash">Xin lỗi, thiết bị của bạn không hỗ trợ đèn flash !</string>
+    <string name="msg_permission_fine_location">Xin cấp quyền FINE LOCATION để hiển thị nút Location để tìm địa điểm hiện tại của thiết bị !</string>
+    <string name="msg_permission_map">\"Xin cấp quyền,bạn có thể vào Cài đặt để cho phép ứng dụng có quyền truy cập !\"</string>
+    <string name="open">Mở</string>
+    <string name="title_activity_experience">Kinh nghiệm phượt</string>
+    <string name="title_activity_maps">Bản đồ</string>
+    <string name="title_dialog_choose_city">Chọn thành phố</string>
+    <string name="title_dialog_speech_to_text">Nói đi nào</string>
+    <string name="title_dialog_unfortunately">"Không may "</string>
+    <string name="title_fragment_about">About</string>
+    <string name="title_fragment_update">Cập nhật</string>
+    <string name="toast_not_support_speech">Rất tiếc thiết bị của bạn không hỗ trợ tìm kiếm bằng giọng nói</string>
+    <string name="view_more">Xem thêm</string>
+    <string name="menu_setting">Cài đặt</string>
+    <string name="menu_like_on_facebook">Thích trên facebook</string>
+    <string name="menu_share">Chia sẻ</string>
+    <string name="menu_report">Góp ý</string>
+    <string name="press_exit">Ấn lần nữa để thoát</string>
+</resources>

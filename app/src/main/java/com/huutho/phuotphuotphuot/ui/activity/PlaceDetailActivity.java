@@ -1,20 +1,9 @@
 package com.huutho.phuotphuotphuot.ui.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.transition.TransitionInflater;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
@@ -25,8 +14,6 @@ import com.huutho.phuotphuotphuot.ui.fragment.PlaceDetailIntroFragment;
 import com.huutho.phuotphuotphuot.ui.fragment.PlaceDetailMapFragment;
 import com.huutho.phuotphuotphuot.ui.fragment.PlaceDetailMotelFragment;
 import com.huutho.phuotphuotphuot.widget.tab.TabBuilder;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,12 +62,27 @@ public class PlaceDetailActivity extends BaseActivity {
 
     private void initTabAndViewPager(TabLayout tabLayout, ViewPager viewPager) {
         TabBuilder tabBuilder = new TabBuilder(this, tabLayout, viewPager)
-                .setFragment(PlaceDetailIntroFragment.newInstance(mPlace),
+
+                .setPagerFragment(
+                        PlaceDetailIntroFragment.newInstance(mPlace),
                         PlaceDetailMapFragment.newInstance(mPlace),
                         PlaceDetailFoodFragment.newInstance(mPlace),
                         PlaceDetailMotelFragment.newInstance(mPlace))
-                .setTitle("Intro", "Map", "Food", "Motel");
-        tabBuilder.build();
+
+                .setTabTitle(
+                        getResources().getString(R.string.menu_place_intro),
+                        getResources().getString(R.string.menu_place_map),
+                        getResources().getString(R.string.menu_place_food),
+                        getResources().getString(R.string.menu_place_motel))
+
+                .setTabIcon(false,
+                        R.drawable.ic_tab_intro,
+                        R.drawable.ic_tab_map,
+                        R.drawable.ic_tab_food,
+                        R.drawable.ic_tab_motel)
+
+                .build();
+
     }
 
 

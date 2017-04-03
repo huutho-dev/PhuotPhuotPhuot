@@ -6,6 +6,13 @@
 
     <color name="colorTransparent">#00000000</color>
 
+
+
+    <color name="colorTextPrimary">#de000000</color>
+    <color name="colorTextSecondary">#8a000000</color>
+    <color name="colorTextDisable_Hint">#61000000</color>
+    <color name="colorDivides">#25000000</color>
+
     <!--color text-->
     <color name="textColorPrimary">#de000000</color>
     <color name="textColorSecondary">#8a000000</color>

@@ -34,7 +34,7 @@ public class UpdateFragment extends BaseFragment{
     @Override
     public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this,getView());
-        mToolbar.setTitle("Update");
+        mToolbar.setTitle(R.string.title_fragment_update);
         mToolbar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
     }
 

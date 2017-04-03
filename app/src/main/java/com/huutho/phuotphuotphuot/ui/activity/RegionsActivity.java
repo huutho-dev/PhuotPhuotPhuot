@@ -2,12 +2,14 @@ package com.huutho.phuotphuotphuot.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,10 +37,12 @@ import com.huutho.phuotphuotphuot.ui.adapter.PlaceRVAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.City;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.ui.fragment.InformationFragment;
+import com.huutho.phuotphuotphuot.ui.fragment.ReportForMeFragment;
 import com.huutho.phuotphuotphuot.ui.fragment.UpdateFragment;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TablePlace;
 import com.huutho.phuotphuotphuot.widget.ClearEditText;
+import com.huutho.phuotphuotphuot.widget.TextViewRoboto;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -65,6 +70,8 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     NavigationView mNavView;
     @BindView(R.id.act_regions_toobar)
     Toolbar mToobar;
+    @BindView(R.id.act_regions_toolbar_title)
+    TextViewRoboto mToolbarTitle;
     @BindView(R.id.act_regions_choose_city)
     ImageView mChooseLocation;
     @BindView(R.id.act_home_edt_search)
@@ -107,9 +114,11 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     public void bindViewToLayout() {
         ButterKnife.bind(this);
 
+        // setup navigationview
         mNavView.setItemIconTintList(null);
         mNavView.setNavigationItemSelectedListener(this);
         removeScrollbarNavigationView(mNavView);
+
 
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToobar, R.string.open, R.string.close);
         mToggle.syncState();
@@ -122,7 +131,16 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
         mRVPlace.setAdapter(mAdapter);
         mChooseLocation.setOnClickListener(this);
         mEdtSearch.addTextChangedListener(txtWatcher);
+
+        // set font roboto for edittext
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
+        mEdtSearch.setTypeface(typeface);
+        mEdtSearch.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+
+        // set font roboto for title toolbar
         setSupportActionBar(mToobar);
+        getSupportActionBar().setTitle("");
+        mToolbarTitle.setText("PhuotPhuotPhuot");
     }
 
 
@@ -194,7 +212,7 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                 break;
 
             case R.id.action_sos:
-                startActivity(new Intent(RegionsActivity.this,SOSActivity.class));
+                startActivity(new Intent(RegionsActivity.this, SOSActivity.class));
                 break;
 
             case R.id.action_update:
@@ -244,15 +262,56 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                     item.setIcon(R.drawable.ic_view_grid);
                 } else {
                     mRVPlace.setLayoutManager(new LinearLayoutManager(RegionsActivity.this));
-                    mAdapter.setType(PlaceRVAdapter.TYPE_LIST); item.setIcon(R.drawable.ic_view_list);
+                    mAdapter.setType(PlaceRVAdapter.TYPE_LIST);
+                    item.setIcon(R.drawable.ic_view_list);
                 }
                 return true;
-            case R.id.action_setting:
+            case R.id.action_setting_dots:
                 return true;
+            case R.id.action_setting:
+                xxxxxSetting();
+                return true;
+            case R.id.action_share:
+                xxxxxShareOnClick();
+                return true;
+            case R.id.action_report:
+                xxxxxReportForMe();
+                return true;
+            case R.id.action_update:
+                goToUpdateFragment();
+                return true;
+            case R.id.action_info:
+                goToInfomationFragment();
+                return true;
+
+
 
         }
         return true;
     }
+
+    private void xxxxxSetting() {
+
+    }
+
+    private void xxxxxShareOnClick() {
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Mời bạn tải ứng dụng Phượt tốt nhất hiện nay");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "http://playstore/?id=com.huutho.phuotphuotphuot");
+
+        startActivity(Intent.createChooser(shareIntent, "Mời chọn phương tiện chia sẻ =]]"));
+    }
+
+    private void xxxxxReportForMe() {
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                setFragment(new ReportForMeFragment());
+            }
+        });
+    }
+
 
     /*----------------------------------------------*/
 
@@ -269,11 +328,11 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "huutho");
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.title_dialog_speech_to_text);
                 try {
                     startActivityForResult(intent, KEY_RESULT_SPEECH);
                 } catch (Exception e) {
-                    Toast.makeText(RegionsActivity.this, "Thiết bị của bạn không hỗ trợ tính năng này", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegionsActivity.this, R.string.toast_not_support_speech, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -333,10 +392,14 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     }
 
     private void notifyDataCity(City city) {
-        mAdapter.setDatas(TablePlace.getInstance().getListData(
-                DbContracts.TablePlace.PLACE_ID_CITY,
-                new String[]{city.getmIdCity()},
-                null));
+        try {
+            mAdapter.setDatas(TablePlace.getInstance().getListData(
+                    DbContracts.TablePlace.PLACE_ID_CITY,
+                    new String[]{city.getmIdCity()},
+                    null));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void notifyDataSearch(String query) {
@@ -421,4 +484,13 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+       if (mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+           mDrawerLayout.closeDrawer(GravityCompat.START);
+       }else {
+           super.onBackPressed();
+       }
+    }
 }

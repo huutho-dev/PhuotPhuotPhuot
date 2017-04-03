@@ -47,7 +47,7 @@ public class ExperienceTravelActivity extends BaseActivity implements IBaseAdapt
     @Override
     public void bindViewToLayout() {
         ButterKnife.bind(this);
-        toolbar.setTitle("Kinh nghiệm phượt");
+        toolbar.setTitle(R.string.title_activity_experience);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         mLinearManager = new LinearLayoutManager(this);
         mRvAdapter = new ExperienceTravelAdapter(this,this);

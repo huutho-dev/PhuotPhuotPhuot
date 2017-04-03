@@ -6,9 +6,11 @@
     <string name="act_intro_btn_next">Next</string>
     <string name="act_intro_btn_lets_go">Lets go</string>
 
+
     <!--drawer title-->
     <string name="open">Open</string>
     <string name="close">Close</string>
+
     <!--act_regions-->
     <string name="act_regions_search_hint">Tìm kiếm</string>
 
@@ -28,7 +30,12 @@
     <string name="menu_update">Update</string>
 
     <string name="menu_list_or_grid">List Or Grid</string>
+    <string name="menu_settings_dots">Setting</string>
+
     <string name="menu_setting">Setting</string>
+    <string name="menu_like_on_facebook">Like ok facebook</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_report">Report</string>
 
 
     <!--bottombar menu-->
@@ -40,5 +47,25 @@
     <!--dialog title-->
     <string name="title_dialog_choose_city">Choose city</string>
     <string name="title_activity_maps">Map</string>
-    <string name="view_more">Xem thêm</string>
+    <string name="title_dialog_unfortunately">Unfortunately</string>
+    <string name="title_dialog_speech_to_text">Speech</string>
+
+    <string name="toast_not_support_speech">Sorry, your device does not support speech to text :(</string>
+
+
+    <!--title fragment activity-->
+    <string name="title_activity_experience">Experience Travel</string>
+    <string name="title_fragment_about">About</string>
+    <string name="title_fragment_update">Update</string>
+
+    <!--msg-->
+    <string name="msg_flash">Sorry, your device does not support flash :(</string>
+    <string name="msg_permission_map">Require permission , you can goto setting to set permission !</string>
+    <string name="msg_permission_fine_location">Require permission FINE LOCATION for show Button location to find current position of device !</string>
+
+
+    <string name="view_more">View more</string>
+    <string name="press_exit">Press again to exit</string>
+    <string name="title_fragment_report">Report</string>
+
 </resources>

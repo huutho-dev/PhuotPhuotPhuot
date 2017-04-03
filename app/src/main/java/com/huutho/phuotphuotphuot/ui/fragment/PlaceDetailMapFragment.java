@@ -33,7 +33,6 @@ import com.huutho.phuotphuotphuot.location.AnalyzeSteps;
 import com.huutho.phuotphuotphuot.location.RoutesLocation;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.ui.entity.PlaceRested;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 import com.huutho.phuotphuotphuot.utils.MapUtils;
 import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
 import com.huutho.phuotphuotphuot.utils.database.DbContracts;
@@ -103,7 +102,7 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
             @Override
             public void onClick(View v) {
                 if (routesLocation != null)
-                drawDirectionOnMap(routesLocation);
+                    drawDirectionOnMap(routesLocation);
                 else {
                     String destination = MapUtils.convertStandStrLocation(mPlace.mLatLng);
                     String origin = SharePreferencesUtils.getInstances().getLastKnowLocation();
@@ -146,7 +145,7 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
 
         Retrofit retrofit = new ApiRequestHelper().getMapApiRequest();
         ApiRequest request = retrofit.create(ApiRequest.class);
-        Call<RoutesLocation> call = request.getDirection(origin, destination, ApiRequest.MODE_DRIVING, ApiRequest.LANGUAGE);
+        Call<RoutesLocation> call = request.getDirection(origin, mPlace.mNamePlace, ApiRequest.MODE_DRIVING, ApiRequest.LANGUAGE);
         call.enqueue(this);
 
         // draw hotel
@@ -164,7 +163,6 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
     public void onResponse(Response<RoutesLocation> response, Retrofit retrofit) {
         if (response.body() != null) {
             RoutesLocation routesLocation = response.body();
-            LogUtils.e("hihidongoc",routesLocation.toString());
             this.routesLocation = routesLocation;
             drawDirectionOnMap(routesLocation);
         }
@@ -211,7 +209,7 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
         if (requestCode == REQUEST_PERMISSION) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(mContext).setCancelable(true)
-                        .setMessage("require permission, you can goto setting to set permission")
+                        .setMessage(R.string.msg_permission_map)
                         .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -248,7 +246,7 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
     private void setDialogShowRequestPermission() {
         new AlertDialog.Builder(mContext).setCancelable(true)
                 .setCancelable(false)
-                .setMessage("Xin cấp quyền truy cập tìm kiếm vị trí để hiển thị Button 'Tìm vị trí của bạn' để tìm kiếm vị trí hiện tại của thiết bị.")
+                .setMessage(R.string.msg_permission_fine_location)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -265,20 +263,32 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
                 .show();
     }
 
-    private void drawDirectionOnMap(RoutesLocation routesLocation) {
-        AnalyzeSteps analyzeSteps = new AnalyzeSteps(routesLocation.routes.get(0).legs.get(0).steps);
-        ArrayList<LatLng> latLngs = analyzeSteps.getLatLngs();
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.color(Color.parseColor("#283D51"));
-        polylineOptions.width(8);
-        polylineOptions.clickable(true);
-        polylineOptions.geodesic(true);
-        polylineOptions.zIndex(30);
-        polylineOptions.addAll(latLngs);
-        mMap.addPolyline(polylineOptions);
+    private void drawDirectionOnMap(final RoutesLocation routesLocation) {
+        try {
+            getHandle().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (routesLocation.routes.size() != 0 && routesLocation.routes.get(0).legs.size() != 0){
+                        AnalyzeSteps analyzeSteps = new AnalyzeSteps(routesLocation.routes.get(0).legs.get(0).steps);
+                        ArrayList<LatLng> latLngs = analyzeSteps.getLatLngs();
+                        PolylineOptions polylineOptions = new PolylineOptions();
+                        polylineOptions.color(Color.parseColor("#283D51"));
+                        polylineOptions.width(2);
+                        polylineOptions.zIndex(30);
+                        polylineOptions.geodesic(true);
+                        polylineOptions.addAll(latLngs);
+                        mMap.addPolyline(polylineOptions);
 
-        MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker)).position(latLngs.get(latLngs.size()-1));
-        mMap.addMarker(markerOptions);
+                        MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker)).position(latLngs.get(latLngs.size() - 1));
+                        mMap.addMarker(markerOptions);
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Runnable runLoadMotelLocation = new Runnable() {
@@ -299,12 +309,5 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
         }
     };
 
-    private Runnable runAddMarkerMotel = new Runnable() {
-        @Override
-        public void run() {
-            for (int i = 0; i < mResteds.size(); i++) {
-                MapUtils.addHotel(mMap, mResteds.get(i).mLatLng, mResteds.get(i).mNamePlaceRested);
-            }
-        }
-    };
+
 }

@@ -2,18 +2,50 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:checkable="true"
         android:id="@+id/action_grid_list"
         android:icon="@drawable/background_type_view_list_or__grid"
         android:orderInCategory="100"
         android:title="@string/menu_list_or_grid"
         app:showAsAction="always" />
 
+
     <item
-        android:checkable="true"
-        android:id="@+id/action_setting"
+        android:id="@+id/action_setting_dots"
         android:icon="@drawable/ic_menu_setting"
         android:orderInCategory="100"
-        android:title="@string/menu_setting"
-        app:showAsAction="always" />
+        android:title="@string/menu_settings_dots"
+        app:showAsAction="always">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/action_setting"
+                    android:icon="@drawable/ic_menu_settings"
+                    android:orderInCategory="100"
+                    android:title="@string/menu_setting" />
+                <item
+                    android:id="@+id/action_share"
+                    android:icon="@drawable/ic_menu_share"
+                    android:orderInCategory="100"
+                    android:title="@string/menu_share" />
+
+                <item
+                    android:id="@+id/action_report"
+                    android:icon="@drawable/ic_menu_report"
+                    android:orderInCategory="100"
+                    android:title="@string/menu_report" />
+
+                <item
+                    android:id="@+id/action_update"
+                    android:icon="@drawable/ic_menu_update_arrows"
+                    android:orderInCategory="100"
+                    android:title="@string/menu_update" />
+
+                <item
+                    android:id="@+id/action_info"
+                    android:icon="@drawable/ic_menu_info"
+                    android:orderInCategory="100"
+                    android:title="@string/menu_information" />
+            </group>
+        </menu>
+    </item>
 </menu>

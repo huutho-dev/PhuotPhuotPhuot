@@ -31,7 +31,7 @@ public class InformationFragment extends BaseFragment {
     @Override
     public void bindViewToFragment(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, getView());
-        mToobar.setTitle("Information");
+        mToobar.setTitle(R.string.title_fragment_about);
         mToobar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
         mTextInformation.setText("Hihi đồ ngốc");
     }

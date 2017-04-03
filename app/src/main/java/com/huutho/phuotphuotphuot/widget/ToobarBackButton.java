@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +44,9 @@ public class ToobarBackButton extends Toolbar {
        });
     }
 
-    private void setTitle(String title){
+    public void setToolbarTitle(String title){
         setTitle(title);
+        setTitleTextColor(Color.parseColor("#ffffff"));
     }
+
 }

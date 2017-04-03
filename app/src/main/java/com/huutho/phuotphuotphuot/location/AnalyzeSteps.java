@@ -1,8 +1,9 @@
 package com.huutho.phuotphuotphuot.location;
 
-        import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLng;
+import com.huutho.phuotphuotphuot.utils.LogUtils;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 /**
  * Created by HuuTho on 3/3/2017.
@@ -14,6 +15,7 @@ public class AnalyzeSteps {
     public AnalyzeSteps(ArrayList<RoutesLocation.RoutesBean.LegsBean.StepsBean> stepsBeen) {
         this.stepsBeen = stepsBeen;
         sizeSteps = stepsBeen.size();
+
     }
 
 
@@ -33,7 +35,13 @@ public class AnalyzeSteps {
             double latEnd = stepsBeen.get(i).endLocation.lat;
             double lngEnd = stepsBeen.get(i).endLocation.lng;
             latLngs.add(new LatLng(latEnd,lngEnd));
+
+            LogUtils.e("huutho",lat+","+lng );
+            LogUtils.e("huutho",latEnd+","+lngEnd );
+            LogUtils.e("huutho","--------------------");
+
         }
+
         return latLngs;
     }
 

@@ -2,9 +2,12 @@ package com.huutho.phuotphuotphuot.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 /**
  * Created by HuuTho on 1/17/2017.
@@ -20,6 +23,11 @@ public class AppController extends Application {
         return ourInstance;
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {

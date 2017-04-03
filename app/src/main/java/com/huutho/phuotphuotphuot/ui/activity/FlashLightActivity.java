@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
-import com.huutho.phuotphuotphuot.utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +31,7 @@ public class FlashLightActivity extends BaseActivity {
     private boolean mDeviceHasFlash;
     private boolean isFlashOn;
 
-    public static void lauch(AppCompatActivity activity){
+    public static void lauch(AppCompatActivity activity) {
         Intent intent = new Intent(activity, FlashLightActivity.class);
         activity.startActivity(intent);
     }
@@ -56,14 +55,13 @@ public class FlashLightActivity extends BaseActivity {
                 .getPackageManager()
                 .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-        if (!mDeviceHasFlash){
+        if (!mDeviceHasFlash) {
             createDiaglog();
-        }else {
+        } else {
             mSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    LogUtils.e("huutho","hihi");
                     if (!isFlashOn) {
                         turnOnFlash();
                     } else {
@@ -78,8 +76,8 @@ public class FlashLightActivity extends BaseActivity {
 
     private void createDiaglog() {
         alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Error");
-        alertDialog.setMessage("Rất tiếc thiết bị của  bạn không hỗ trợ đèn ");
+        alertDialog.setTitle(R.string.title_dialog_unfortunately);
+        alertDialog.setMessage(getResources().getString(R.string.msg_flash));
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -134,7 +132,7 @@ public class FlashLightActivity extends BaseActivity {
     private void changeImageSwitch(boolean isFlashOn) {
         if (isFlashOn) {
             mSwitch.setImageResource(R.drawable.icon_flash_turn_on);
-            mSwitch.setBackgroundColor(getResources().getColor(R.color.flashlighton ));
+            mSwitch.setBackgroundColor(getResources().getColor(R.color.flashlighton));
             return;
         }
         mSwitch.setImageResource(R.drawable.icon_flash_turn_off);
@@ -148,7 +146,7 @@ public class FlashLightActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (isFlashOn){
+        if (isFlashOn) {
             turnOffFlash();
             mCamera.release();
             finish();

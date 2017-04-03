@@ -1,14 +1,14 @@
 package com.huutho.phuotphuotphuot.widget.tab;
 
+
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,96 +16,113 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by HuuTho on 2/19/2017.
+ * Created by ThoNH on 24/03/2017.
  */
 
 public class TabBuilder {
-    private FragmentActivity mContext;
-    private ViewPager mViewPager;
+    private AppCompatActivity mConText;
     private TabLayout mTabLayout;
-    private TabPagerAdapter mPagerAdapter;
-    private List<Fragment> mListFragment;
-    private List<String> mListTitle;
+    private ViewPager mViewPager;
+    private PagerAdapter mAdapter;
 
-    public TabBuilder(Fragment fragment, TabLayout tabLayout, ViewPager viewPager) {
-        this.mContext = fragment.getActivity();
-        this.mViewPager = viewPager;
-        this.mTabLayout = tabLayout;
-        this.mListFragment = new ArrayList<>();
-        this.mListTitle = new ArrayList<>();
-    }
+    private List<Fragment> mFragments;
+    private List<String> mTitles;
+    private List<Drawable> mIcons;
+
+    private boolean isOnlyIcon;
 
     public TabBuilder(AppCompatActivity activity, TabLayout tabLayout, ViewPager viewPager) {
-        this.mContext = activity;
-        this.mViewPager = viewPager;
+        this.mConText = activity;
         this.mTabLayout = tabLayout;
-        this.mListFragment = new ArrayList<>();
-        this.mListTitle = new ArrayList<>();
+        this.mViewPager = viewPager;
 
-
+        mFragments = new ArrayList<>();
+        mTitles = new ArrayList<>();
+        mIcons = new ArrayList<>();
     }
 
-    public TabBuilder setFragment(Fragment... fragments) {
-        mListFragment.clear();
-        Collections.addAll(mListFragment, fragments);
+    public TabBuilder(Fragment fragment, TabLayout tabLayout, ViewPager viewPager) {
+        this.mConText = (AppCompatActivity) fragment.getActivity();
+        this.mTabLayout = tabLayout;
+        this.mViewPager = viewPager;
+
+        mFragments = new ArrayList<>();
+        mTitles = new ArrayList<>();
+        mIcons = new ArrayList<>();
+    }
+
+    public TabBuilder setTabTitle(String... titles) {
+        mTitles.clear();
+        Collections.addAll(mTitles, titles);
         return this;
     }
 
-    public TabBuilder setTitle(String... titles) {
-        mListTitle.clear();
-        Collections.addAll(mListTitle, titles);
+    public TabBuilder setTabIcon(boolean onlyIcon, Integer... icons) {
+        mIcons.clear();
+
+        for (Integer icon : icons) {
+            mIcons.add(mConText.getResources().getDrawable(icon));
+        }
+
+        this.isOnlyIcon = onlyIcon;
         return this;
     }
 
-    public TabBuilder setIcon(int... icon) {
-        int tabCount = mTabLayout.getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            mTabLayout.getTabAt(i).setIcon(icon[i]);
+    public TabBuilder setTabIcon(boolean onlyIcon, Drawable... icons) {
+        mIcons.clear();
+        Collections.addAll(mIcons, icons);
+        this.isOnlyIcon = onlyIcon;
+        return this;
+    }
+
+    public TabBuilder setPagerFragment(Fragment... fragments) {
+        mFragments.clear();
+        Collections.addAll(mFragments, fragments);
+        return this;
+    }
+
+    public TabBuilder build() {
+
+        if (mTabLayout != null && mViewPager != null) {
+            mAdapter = new com.huutho.phuotphuotphuot.widget.tab.PagerAdapter(mConText.getSupportFragmentManager(), mTitles, mFragments, isOnlyIcon);
+            mTabLayout.setupWithViewPager(mViewPager);
+            mViewPager.setAdapter(mAdapter);
+
+
+            if (!mIcons.isEmpty())
+                for (int i = 0; i < mFragments.size(); i++) {
+                    String title = mTitles.get(i);
+                    Drawable icon = mIcons.get(i);
+
+                    TextView viewTab = new TextView(mConText);
+                    viewTab.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    viewTab.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+                    viewTab.setCompoundDrawablePadding(8);
+                    viewTab.setText(title);
+                    viewTab.setTextColor(Color.WHITE);
+                    viewTab.setAllCaps(false);
+
+                    TabLayout.Tab tab = mTabLayout.getTabAt(i);
+                    if (!isOnlyIcon) {
+                        tab.setCustomView(viewTab);
+                    } else {
+                        tab.setIcon(icon);
+                    }
+                }
         }
         return this;
     }
 
-    public TabBuilder setIcon(Drawable... icon) {
-        int tabCount = mTabLayout.getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-            mTabLayout.getTabAt(i).setIcon(icon[i]);
-        }
+    public TabBuilder setOnPagerListener(ViewPager.OnPageChangeListener pagerListener) {
+        mViewPager.addOnPageChangeListener(pagerListener);
         return this;
     }
 
-    public TabBuilder setCustomTab(int layoutId, int idTitle, int idIcon, String[] title, int[] icon) {
-        int tabCount = mTabLayout.getTabCount();
-        for (int i = 0; i < tabCount; i++) {
-
-            View tabView = LayoutInflater.from(mContext).inflate(layoutId, null);
-            ((TextView) tabView.findViewById(idTitle)).setText(title[i]);
-            ((ImageView) tabView.findViewById(idIcon)).setImageResource(icon[i]);
-            mTabLayout.getTabAt(i).setCustomView(tabView);
-        }
-        return this;
+    public TabLayout getTabLayout(){
+        return mTabLayout;
     }
-
-    public TabBuilder addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mViewPager.addOnPageChangeListener(listener);
-        return this;
-    }
-
-    public TabBuilder addOnTabSelectedListener(TabLayout.OnTabSelectedListener listener) {
-        mTabLayout.addOnTabSelectedListener(listener);
-        return this;
-    }
-
-    public void build() {
-        mPagerAdapter = new TabPagerAdapter(mContext.getSupportFragmentManager(),
-                mListFragment, mListTitle);
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setOffscreenPageLimit(mViewPager.getAdapter().getCount());
-    }
-
-
-    public int getCurrentTab() {
-        return mViewPager.getCurrentItem();
+    public ViewPager getViewPager(){
+        return mViewPager;
     }
 
 }

@@ -2,14 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_parent"
     android:orientation="vertical"
     android:padding="@dimen/spacing_0_4dp">
 
-    <android.support.v7.widget.AppCompatTextView
+    <com.huutho.phuotphuotphuot.widget.TextViewRoboto
+        app:textFonts="RobotoMedium"
         android:layout_width="wrap_content"
         android:id="@+id/item_tv_city"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextSecondary"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/spacing_1_8dp"
