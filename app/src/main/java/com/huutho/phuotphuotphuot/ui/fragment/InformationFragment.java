@@ -18,6 +18,13 @@ import butterknife.ButterKnife;
 
 public class InformationFragment extends BaseFragment {
 
+    private String info = "Ứng dụng Phượt trên Android version 1.0 " + "\n"
+            + "Nhóm thực hiện gồm các thành viên : "
+            + "\n" + "\t- Nguyễn Hữu Thọ"
+            + "\n" + "\t- Ngô Nguyễn Tử Anh"
+            + "\n" + "\t- Trần Thị Hà"
+            +"\n" + "Mọi thắc mắc, và thông tin chi tiết xin liên hệ : singgumcole@gmail.com";
+
     @BindView(R.id.fragment_information_toobar_back_button)
     ToobarBackButton mToobar;
     @BindView(R.id.fragment_information_txt_info)
@@ -33,7 +40,7 @@ public class InformationFragment extends BaseFragment {
         ButterKnife.bind(this, getView());
         mToobar.setTitle(R.string.title_fragment_about);
         mToobar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
-        mTextInformation.setText("Hihi đồ ngốc");
+        mTextInformation.setText(info);
     }
 
     @Override

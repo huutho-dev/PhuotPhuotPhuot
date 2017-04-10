@@ -26,8 +26,8 @@ import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
 
 public class LocationService extends Service implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    private static final long INTERVAL = 10000;
-    private static final long FAST_INTERVAL = 5000;
+    private static final long INTERVAL = 1;
+    private static final long FAST_INTERVAL = 1;
     private static final long SMALLESDISPLACEMENT = 1;
 
     private GoogleApiClient mGoogleApiClient;
@@ -43,7 +43,6 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     public void onCreate() {
         super.onCreate();
         createGoogleApiClient();
-
         getLastKnowLocation();
     }
 

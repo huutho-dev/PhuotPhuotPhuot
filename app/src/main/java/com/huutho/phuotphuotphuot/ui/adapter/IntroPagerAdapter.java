@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.ui.entity.IntroItem;
 
@@ -41,7 +42,7 @@ public class IntroPagerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView) view.findViewById(R.id.image_intro);
         TextView textView = (TextView) view.findViewById(R.id.text_intro);
         IntroItem item = dataIntros.get(position);
-        imageView.setImageResource(item.resId);
+        Glide.with(container.getContext()).load(item.resId).into(imageView);
         textView.setText(item.title);
         container.addView(view);
         return view;

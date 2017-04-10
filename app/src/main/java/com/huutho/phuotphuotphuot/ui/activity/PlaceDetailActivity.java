@@ -61,7 +61,7 @@ public class PlaceDetailActivity extends BaseActivity {
     }
 
     private void initTabAndViewPager(TabLayout tabLayout, ViewPager viewPager) {
-        TabBuilder tabBuilder = new TabBuilder(this, tabLayout, viewPager)
+       new TabBuilder(this, tabLayout, viewPager)
 
                 .setPagerFragment(
                         PlaceDetailIntroFragment.newInstance(mPlace),

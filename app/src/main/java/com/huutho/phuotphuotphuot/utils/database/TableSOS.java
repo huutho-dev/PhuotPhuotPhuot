@@ -34,7 +34,7 @@ public class TableSOS extends DbHelper implements DbCommonOperator<SOS> {
         Cursor cursor = null;
         try {
             openDb();
-                cursor = mSqlDatabase.query(DbContracts.TableSOS.TABLE_SOS, null, null, null, null, null, null);
+                cursor = mSqlDatabase.query(DbContracts.TableSOS.TABLE_SOS, null, selection, args, null, null, orderBy);
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 soses.add(new SOS(cursor));

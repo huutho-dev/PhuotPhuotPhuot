@@ -78,10 +78,11 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void activityReady() {
         introItems = new ArrayList<>();
-        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
-        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
-        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
-        introItems.add(new IntroItem("hhi", R.mipmap.ic_launcher));
+        introItems.add(new IntroItem("Giao diện thân thiện, đẹp mắt", R.drawable.intro1));
+        introItems.add(new IntroItem("Menu đa dạng, dễ sử dụng", R.drawable.intro2));
+        introItems.add(new IntroItem("Bản đồ chi tiết đến từng cung đường", R.drawable.intro3));
+        introItems.add(new IntroItem("Hình ảnh da dạng", R.drawable.intro4));
+        introItems.add(new IntroItem("Thông tin hữu ích cho bạn", R.drawable.intro5));
 
         mAdapter = new IntroPagerAdapter(introItems);
         mViewPager.setAdapter(mAdapter);
@@ -100,7 +101,7 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
         currentPosition = mViewPager.getCurrentItem();
         switch (v.getId()) {
             case R.id.act_intro_btn_next:
-                if (currentPosition == 3) {
+                if (currentPosition == mAdapter.getCount()-1) {
                     startActivity(new Intent(IntroActivity.this, HomeActivity.class));
                     finish();
                 } else {
@@ -132,7 +133,7 @@ public class IntroActivity extends BaseActivity implements View.OnClickListener 
         public void onPageSelected(int position) {
 
 
-            if (position == 3) {
+            if (position == mAdapter.getCount()-1) {
                 mButtonNext.setText("Let's start");
                 mButtomPrevious.setVisibility(View.INVISIBLE);
             } else if (position == 0) {

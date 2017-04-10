@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="vertical">
+
     <com.huutho.phuotphuotphuot.widget.ToobarBackButton
-        android:layout_width="match_parent"
         android:id="@+id/fragment_information_toobar_back_button"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
     <com.huutho.phuotphuotphuot.widget.TextViewRoboto
-        android:layout_width="wrap_content"
-        app:textFonts="RobotoMedium"
-        android:layout_height="wrap_content"
-        android:text="Hihi đồ ngốc"
+        android:textColor="#515151"
         android:id="@+id/fragment_information_txt_info"
-        android:layout_centerInParent="true"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="Hihi đồ ngốc"
+        app:textFonts="RobotoMedium" />
 
 </RelativeLayout>

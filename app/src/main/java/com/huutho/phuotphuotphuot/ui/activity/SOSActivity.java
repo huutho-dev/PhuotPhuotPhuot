@@ -4,15 +4,23 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.activity.BaseActivity;
 import com.huutho.phuotphuotphuot.ui.adapter.SosAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.SOS;
+import com.huutho.phuotphuotphuot.utils.database.DbContracts;
 import com.huutho.phuotphuotphuot.utils.database.TableSOS;
+import com.huutho.phuotphuotphuot.widget.ToobarBackButton;
 
 import java.util.ArrayList;
 
@@ -28,6 +36,8 @@ public class SOSActivity extends BaseActivity implements SosAdapter.ISosAdapterL
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 11;
     @BindView(R.id.reycler_sos)
     public RecyclerView mRvSOS;
+    @BindView(R.id.toolbar)
+    public ToobarBackButton toobarBackButton;
 
     private SosAdapter adapter;
     private ArrayList<SOS> datas = new ArrayList<>();
@@ -40,6 +50,10 @@ public class SOSActivity extends BaseActivity implements SosAdapter.ISosAdapterL
     @Override
     public void bindViewToLayout() {
         ButterKnife.bind(this);
+
+        setSupportActionBar(toobarBackButton);
+        toobarBackButton.setToolbarTitle("SOS");
+
         datas.addAll(TableSOS.getInstance().getListData(null, null, null));
         adapter = new SosAdapter(this, this);
         mRvSOS.setLayoutManager(new LinearLayoutManager(this));
@@ -79,6 +93,50 @@ public class SOSActivity extends BaseActivity implements SosAdapter.ISosAdapterL
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_sos, menu);
+
+        final MenuItem itemSearch = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(itemSearch);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!searchView.isIconified()){
+                    searchView.setIconified(true);
+                }
+                itemSearch.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                    if (TextUtils.isEmpty(newText)){
+                        // Search view is empty
+                        datas.clear();
+                        datas.addAll(TableSOS.getInstance().getListData(null, null, null));
+                        adapter.setDatas(datas);
+                    }else {
+                        datas.clear();
+                        ArrayList<SOS> newData = TableSOS.getInstance().getListData(DbContracts.TableSOS.SOS_NAME_CITY + " LIKE '%" + newText + "%' ",null,null);
+                        datas.addAll(newData);
+                        adapter.setDatas(datas);
+                    }
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onRecyclerViewItemClick(SOS dataItem, View view, int position) {

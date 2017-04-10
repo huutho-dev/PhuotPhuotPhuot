@@ -11,8 +11,12 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,14 +27,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.app.retrofit.ApiRequest;
 import com.huutho.phuotphuotphuot.app.retrofit.ApiRequestHelper;
+import com.huutho.phuotphuotphuot.base.adapter.IBaseAdapterCallback;
+import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 import com.huutho.phuotphuotphuot.base.fragment.MapFragment;
 import com.huutho.phuotphuotphuot.location.AnalyzeSteps;
 import com.huutho.phuotphuotphuot.location.RoutesLocation;
+import com.huutho.phuotphuotphuot.ui.adapter.NavigateDirectionAdapter;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.ui.entity.PlaceRested;
 import com.huutho.phuotphuotphuot.utils.MapUtils;
@@ -51,7 +59,7 @@ import retrofit.Retrofit;
  * Created by HuuTho on 2/16/2017.
  */
 
-public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCallback, Callback<RoutesLocation> {
+public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCallback, Callback<RoutesLocation>, IBaseAdapterCallback {
     private static final String EXTRA_MAP_FRAGMENT = "extra.map.fragment";
 
     private static final int REQUEST_PERMISSION = 111;
@@ -60,10 +68,21 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
     private MapView mGoogleMap;
     private GoogleMap mMap;
     private RoutesLocation routesLocation;
+    private ArrayList<RoutesLocation.RoutesBean.LegsBean.StepsBean> mListDirectionDetailInfo = new ArrayList<>();
+
+    private NavigateDirectionAdapter navigateDirectionAdapter;
+
+    RecyclerView rvNavigate;
 
 
     @BindView(R.id.imv_draw_map)
     public ImageView mImvDrawOnMap;
+
+    @BindView(R.id.imv_navigate)
+    public ImageView mImvNavigate;
+
+    @BindView(R.id.txt_detail_direction)
+    public TextView mTxtDetailDirection;
 
     public static PlaceDetailMapFragment newInstance(Place place) {
         Bundle args = new Bundle();
@@ -98,6 +117,7 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
 
     @Override
     public void fragmentReady() {
+
         mImvDrawOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +132,28 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
                     Call<RoutesLocation> call = request.getDirection(origin, destination, ApiRequest.MODE_DRIVING, ApiRequest.LANGUAGE);
                     call.enqueue(PlaceDetailMapFragment.this);
                 }
+            }
+        });
+
+
+        mImvNavigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final View view = LayoutInflater.from(mActivity).inflate(R.layout.layout_navigate_direction, null);
+                rvNavigate = (RecyclerView) view.findViewById(R.id.rv_navigate);
+                rvNavigate.setLayoutManager(new LinearLayoutManager(mContext));
+                if (navigateDirectionAdapter != null) rvNavigate.setAdapter(navigateDirectionAdapter);
+
+                new AlertDialog.Builder(mContext)
+                        .setView(view)
+                        .setTitle("Navigate Detail")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+
             }
         });
     }
@@ -145,16 +187,23 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
 
         Retrofit retrofit = new ApiRequestHelper().getMapApiRequest();
         ApiRequest request = retrofit.create(ApiRequest.class);
-        Call<RoutesLocation> call = request.getDirection(origin, mPlace.mNamePlace, ApiRequest.MODE_DRIVING, ApiRequest.LANGUAGE);
+        Call<RoutesLocation> call = request.getDirection(origin, destination, ApiRequest.MODE_DRIVING, ApiRequest.LANGUAGE);
         call.enqueue(this);
 
         // draw hotel
 //        getHandle().post(runAddMarkerMotel);
         if (!origin.equals("")) {
-            CameraPosition cameraPosition = new CameraPosition(MapUtils.stringLatLngToLatLng(origin), 10, 10, 10);
+            CameraPosition cameraPosition = new CameraPosition(MapUtils.stringLatLngToLatLng(origin), 12, 12, 12);
             CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
             mMap.animateCamera(cameraUpdate);
         }
+
+
+
+        CameraUpdate cameraUpdate =
+                CameraUpdateFactory.
+                        newCameraPosition(new CameraPosition(MapUtils.stringLatLngToLatLng(mPlace.mLatLng),12,12,12));
+        mMap.animateCamera(cameraUpdate);
 
     }
 
@@ -162,15 +211,39 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
     @Override
     public void onResponse(Response<RoutesLocation> response, Retrofit retrofit) {
         if (response.body() != null) {
-            RoutesLocation routesLocation = response.body();
-            this.routesLocation = routesLocation;
-            drawDirectionOnMap(routesLocation);
-        }
 
+            try {
+                String distance = response.body().routes.get(0).legs.get(0).distance.text;
+                String duration = response.body().routes.get(0).legs.get(0).duration.text;
+                mTxtDetailDirection.setText(distance + " : " + duration);
+
+                RoutesLocation routesLocation = response.body();
+                this.routesLocation = routesLocation;
+                drawDirectionOnMap(routesLocation);
+
+                mListDirectionDetailInfo.clear();
+                mListDirectionDetailInfo.addAll(routesLocation.routes.get(0).legs.get(0).steps);
+
+                navigateDirectionAdapter = new NavigateDirectionAdapter(mContext, this);
+                navigateDirectionAdapter.setDatas(routesLocation.routes.get(0).legs.get(0).steps);
+
+                if (rvNavigate !=null){
+                    rvNavigate.setAdapter(navigateDirectionAdapter);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onFailure(Throwable t) {
+        MarkerOptions markerOptions = new MarkerOptions()
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.ic_map_marker))
+                .position(MapUtils.stringLatLngToLatLng(mPlace.mLatLng));
+
+        mMap.addMarker(markerOptions);
     }
 
 
@@ -268,16 +341,24 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
             getHandle().post(new Runnable() {
                 @Override
                 public void run() {
-                    if (routesLocation.routes.size() != 0 && routesLocation.routes.get(0).legs.size() != 0){
+                    if (routesLocation.routes.size() != 0 && routesLocation.routes.get(0).legs.size() != 0) {
                         AnalyzeSteps analyzeSteps = new AnalyzeSteps(routesLocation.routes.get(0).legs.get(0).steps);
                         ArrayList<LatLng> latLngs = analyzeSteps.getLatLngs();
                         PolylineOptions polylineOptions = new PolylineOptions();
-                        polylineOptions.color(Color.parseColor("#283D51"));
-                        polylineOptions.width(2);
+                        polylineOptions.color(Color.parseColor("#006DF0"));
+                        polylineOptions.width(10);
                         polylineOptions.zIndex(30);
                         polylineOptions.geodesic(true);
                         polylineOptions.addAll(latLngs);
                         mMap.addPolyline(polylineOptions);
+
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                        for (LatLng latLng : latLngs) {
+                            builder.include(latLng);
+                        }
+                        LatLngBounds bounds = builder.build();
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 4);
+                        mMap.animateCamera(cu);
 
                         MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker)).position(latLngs.get(latLngs.size() - 1));
                         mMap.addMarker(markerOptions);
@@ -309,5 +390,18 @@ public class PlaceDetailMapFragment extends MapFragment implements OnMapReadyCal
         }
     };
 
+
+    // item on dialog direction navigate direction
+    @Override
+    public void onRecyclerViewItemClick(BaseEntity dataItem, View view, int position) {
+        RoutesLocation.RoutesBean.LegsBean.StepsBean stepsBean = (RoutesLocation.RoutesBean.LegsBean.StepsBean) dataItem;
+
+        CameraUpdate cameraUpdate =
+                CameraUpdateFactory.
+                        newCameraPosition(new CameraPosition(
+                                new LatLng(stepsBean.startLocation.lat,
+                                        stepsBean.startLocation.lat),17,17,17));
+        mMap.animateCamera(cameraUpdate);
+    }
 
 }

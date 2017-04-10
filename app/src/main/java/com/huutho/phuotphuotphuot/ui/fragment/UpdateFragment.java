@@ -46,7 +46,7 @@ public class UpdateFragment extends BaseFragment{
     private Runnable loadUpdate = new Runnable() {
         @Override
         public void run() {
-            mTitle.setText("Phiên bản hiện tại là bản mới nhất");
+            mTitle.setText("Phiên bản hiện tại là bản mới nhất : version 1.0");
             mLoading.setVisibility(View.INVISIBLE);
         }
     };

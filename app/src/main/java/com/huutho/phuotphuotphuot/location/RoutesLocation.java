@@ -1,6 +1,10 @@
 package com.huutho.phuotphuotphuot.location;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
+import com.huutho.phuotphuotphuot.base.entity.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +105,7 @@ public class RoutesLocation {
                 }
             }
 
-            public class StepsBean {
+            public class StepsBean extends BaseEntity {
                 @SerializedName("distance")
                 public DistanceBeanX distance;
                 @SerializedName("duration")
@@ -116,8 +120,11 @@ public class RoutesLocation {
                 public String travelMode;
                 @SerializedName("maneuver")
                 public String maneuver;
+                @SerializedName("polyline")
+                public Points points ;
 
-                public class DistanceBeanX {
+
+                public class DistanceBeanX implements Parcelable {
                     @SerializedName("text")
                     public String text;  @SerializedName("value")
                     public int value;
@@ -129,9 +136,35 @@ public class RoutesLocation {
                                 ", value=" + value +
                                 '}';
                     }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
+                    }
                 }
 
-                public class DurationBeanX {
+                public class Points implements Parcelable {
+
+                    @SerializedName("points")
+                    public String points;
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
+                    }
+                }
+
+                public class DurationBeanX implements Parcelable {
                     @SerializedName("text")
                     public String text;
                     @SerializedName("value")
@@ -144,9 +177,19 @@ public class RoutesLocation {
                                 ", value=" + value +
                                 '}';
                     }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
+                    }
                 }
 
-                public class EndLocationBeanX {
+                public class EndLocationBeanX implements Parcelable {
                     @SerializedName("lat")
                     public double lat;
                     @SerializedName("lng")
@@ -159,9 +202,19 @@ public class RoutesLocation {
                                 ", lng=" + lng +
                                 '}';
                     }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
+                    }
                 }
 
-                public class StartLocationBeanX {
+                public class StartLocationBeanX implements Parcelable {
                     @SerializedName("lat")
                     public double lat;
                     @SerializedName("lng")
@@ -173,6 +226,16 @@ public class RoutesLocation {
                                 "lat=" + lat +
                                 ", lng=" + lng +
                                 '}';
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+
+                    @Override
+                    public void writeToParcel(Parcel dest, int flags) {
+
                     }
                 }
 
@@ -188,6 +251,47 @@ public class RoutesLocation {
                             ", maneuver='" + maneuver + '\'' +
                             '}';
                 }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                    dest.writeParcelable(StepsBean.this.distance, flags);
+                    dest.writeParcelable(this.duration, flags);
+                    dest.writeParcelable(this.endLocation, flags);
+                    dest.writeString(this.htmlInstructions);
+                    dest.writeParcelable(this.startLocation, flags);
+                    dest.writeString(this.travelMode);
+                    dest.writeString(this.maneuver);
+                }
+
+                public StepsBean() {
+                }
+
+                protected StepsBean(Parcel in) {
+                    this.distance = in.readParcelable(DistanceBeanX.class.getClassLoader());
+                    this.duration = in.readParcelable(DurationBeanX.class.getClassLoader());
+                    this.endLocation = in.readParcelable(EndLocationBeanX.class.getClassLoader());
+                    this.htmlInstructions = in.readString();
+                    this.startLocation = in.readParcelable(StartLocationBeanX.class.getClassLoader());
+                    this.travelMode = in.readString();
+                    this.maneuver = in.readString();
+                }
+
+                public  final Creator<StepsBean> CREATOR = new Creator<StepsBean>() {
+                    @Override
+                    public StepsBean createFromParcel(Parcel source) {
+                        return new StepsBean(source);
+                    }
+
+                    @Override
+                    public StepsBean[] newArray(int size) {
+                        return new StepsBean[size];
+                    }
+                };
             }
 
             @Override
