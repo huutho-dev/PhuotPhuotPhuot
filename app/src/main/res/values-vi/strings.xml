@@ -4,7 +4,7 @@
     <string name="act_intro_btn_lets_go">Khám phá</string>
     <string name="act_intro_btn_next">Tiếp</string>
     <string name="act_intro_btn_previos">Lùi</string>
-    <string name="act_regions_search_hint">Search</string>
+    <string name="act_regions_search_hint">Tìm kiếm</string>
     <string name="close">Đóng</string>
     <string name="menu_central">Miền Trung</string>
     <string name="menu_compass">La bàn</string>
@@ -43,4 +43,8 @@
     <string name="menu_share">Chia sẻ</string>
     <string name="menu_report">Góp ý</string>
     <string name="press_exit">Ấn lần nữa để thoát</string>
+    <string name="setting_title">Cài đặt</string>
+    <string name="setting_language">Ngôn ngữ</string>
+    <string name="setting_language_content">Ngôn ngữ sẽ được thay đổi sau khi bạn khởi chạy lại app</string>
+
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:title="@string/setting_title"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_2_16dp">
+
+        <com.huutho.phuotphuotphuot.widget.TextViewRoboto
+            android:layout_width="wrap_content"
+            app:textFonts="RobotoBlack"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_language" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/act_setting_spn_language"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right" />
+
+    </RelativeLayout>
+
+</LinearLayout>

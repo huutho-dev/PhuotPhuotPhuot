@@ -291,7 +291,8 @@ public class RegionsActivity extends BaseActivity implements NavigationView.OnNa
     }
 
     private void xxxxxSetting() {
-
+        Intent intent = new Intent(this,SettingActivity.class);
+        startActivity(intent);
     }
 
     private void xxxxxShareOnClick() {

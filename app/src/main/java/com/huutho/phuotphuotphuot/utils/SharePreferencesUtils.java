@@ -1,7 +1,5 @@
 package com.huutho.phuotphuotphuot.utils;
 
-import android.location.Location;
-
 import com.huutho.phuotphuotphuot.app.Config;
 import com.huutho.phuotphuotphuot.base.preferences.BasePreferences;
 
@@ -12,6 +10,7 @@ public class SharePreferencesUtils extends BasePreferences {
 
     private static final String KEY_FIRST_RUN_APP = "key.first.run.app";
     private static final String KEY_LAST_KNOW_LOCATION = "key.last.know.location";
+    private static final String KEY_LANGUAGE = "key.language";
 
     public static SharePreferencesUtils getInstances() {
         return new SharePreferencesUtils();
@@ -38,5 +37,13 @@ public class SharePreferencesUtils extends BasePreferences {
     }
     public String getLastKnowLocation(){
         return getSharePreferences().getString(KEY_LAST_KNOW_LOCATION,"");
+    }
+
+    public void setLanguage(String lang){
+        getEditor().putString(KEY_LANGUAGE,lang).commit();
+    }
+
+    public String getLanguage(){
+        return getSharePreferences().getString(KEY_LANGUAGE,"vi");
     }
 }

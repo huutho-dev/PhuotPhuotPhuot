@@ -2,11 +2,15 @@ package com.huutho.phuotphuotphuot.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.crashlytics.android.Crashlytics;
+import com.huutho.phuotphuotphuot.utils.SharePreferencesUtils;
+
+import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 /**
@@ -34,6 +38,14 @@ public class AppController extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         ourInstance = this;
+
+        Locale locale = new Locale(SharePreferencesUtils.getInstances().getLanguage());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         getDimenScreen();
     }
 

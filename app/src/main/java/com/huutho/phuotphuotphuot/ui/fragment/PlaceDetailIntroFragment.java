@@ -1,6 +1,7 @@
 package com.huutho.phuotphuotphuot.ui.fragment;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,8 +20,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.huutho.phuotphuotphuot.R;
 import com.huutho.phuotphuotphuot.base.fragment.BaseFragment;
+import com.huutho.phuotphuotphuot.ui.activity.PlaceDetailActivity;
 import com.huutho.phuotphuotphuot.ui.entity.ImagePlace;
 import com.huutho.phuotphuotphuot.ui.entity.Place;
 import com.huutho.phuotphuotphuot.utils.ImageUtils;
@@ -80,6 +87,8 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mPlace = getBundleData(this.getArguments());
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -105,6 +114,7 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     }
 
     private void initToolbar() {
+        ((PlaceDetailActivity)getActivity()).setSupportActionBar(mToobar);
         mCollapsingToolbar.setTitle(mPlace.mNamePlace);
         mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.colorTransparent));
         mCollapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
@@ -133,6 +143,24 @@ public class PlaceDetailIntroFragment extends BaseFragment implements ViewPager.
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_intro_fragment_share_fb,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share_fb){
+            ShareDialog shareDialog = new ShareDialog(mActivity);
+            ShareLinkContent content = new ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse(mPlace.mUrlImage))
+                    .build();
+            shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class IntroDetailPagerAdapter extends PagerAdapter {
